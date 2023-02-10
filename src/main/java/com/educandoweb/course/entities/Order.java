@@ -36,12 +36,12 @@ public class Order implements Serializable {
 	
 	private Integer orderStatus;
 	
-	@JsonIgnore
+
 	@ManyToOne
 	@JoinColumn(name = "client_id")
 	private User client;
 	
-	@JsonIgnore
+	
 	@OneToMany(mappedBy = "id.order")
 	private Set<OrderItem> items = new HashSet<>();
 	
@@ -96,7 +96,13 @@ public class Order implements Serializable {
 		this.orderStatus = orderStatus.getCode();
 		}
 	}
-	
+	public Double getTotal() {
+		double sum = 0;
+		for(OrderItem x : items) {
+			sum += x.getSubTotal();
+		}
+		return sum;
+	}
 	
 	@Override
 	public int hashCode() {
