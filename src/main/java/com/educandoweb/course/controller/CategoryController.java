@@ -1,4 +1,4 @@
-package com.educandoweb.course.resources;
+package com.educandoweb.course.controller;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import com.educandoweb.course.services.CategoryService;
 
 @RestController
 @RequestMapping(value = "/categories")
-public class CategoryResource {
+public class CategoryController {
 	@Autowired
 	private CategoryService service;
 	@GetMapping

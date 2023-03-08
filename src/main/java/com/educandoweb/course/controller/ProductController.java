@@ -1,4 +1,4 @@
-package com.educandoweb.course.resources;
+package com.educandoweb.course.controller;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import com.educandoweb.course.services.ProductService;
 
 @RestController
 @RequestMapping(value = "/products")
-public class ProductResource {
+public class ProductController {
 	@Autowired
 	private ProductService service;
 	@GetMapping
