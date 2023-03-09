@@ -8,7 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.educandoweb.course.entities.User;
+import com.educandoweb.course.domain.UserDomain;
 import com.educandoweb.course.repositories.UserRepository;
 import com.educandoweb.course.services.exceptions.DatabaseException;
 import com.educandoweb.course.services.exceptions.ResourceNotFoundException;
@@ -23,17 +23,17 @@ public class UserService {
 	
 	
 
-	public List<User> findAll(){
+	public List<UserDomain> findAll(){
 		return repository.findAll();
 
 	}
 	
-	public User findById(Long id) {
-		Optional<User> obj = repository.findById(id);
+	public UserDomain findById(Long id) {
+		Optional<UserDomain> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 	
-	public User insertUser (User obj) {
+	public UserDomain insertUser (UserDomain obj) {
 		return repository.save(obj);
 	}
 	
@@ -49,9 +49,9 @@ public class UserService {
 		}
 	}
 	
-	public User updateUser (Long id, User obj) {
+	public UserDomain updateUser (Long id, UserDomain obj) {
 		try {
-		User entity = repository.getReferenceById(id);
+		UserDomain entity = repository.getReferenceById(id);
 		updateData(entity, obj);
 		return repository.save(entity);
 		}
@@ -60,7 +60,7 @@ public class UserService {
 		}
 	}
 	
-	private void updateData(User entity, User obj) {
+	private void updateData(UserDomain entity, UserDomain obj) {
 	entity.setName(obj.getName());
 	entity.setEmail(obj.getEmail());
 	entity.setPhone(obj.getPhone());

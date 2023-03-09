@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.educandoweb.course.entities.Category;
+import com.educandoweb.course.domain.CategoryDomain;
 import com.educandoweb.course.services.CategoryService;
 
 @RestController
@@ -18,15 +18,15 @@ public class CategoryController {
 	@Autowired
 	private CategoryService service;
 	@GetMapping
-	public ResponseEntity<List<Category>> findAll() {
-		List<Category> list = service.findAll();
+	public ResponseEntity<List<CategoryDomain>> findAll() {
+		List<CategoryDomain> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 		
 	}
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Category> findById(@PathVariable Long id){
-		Category obj = service.findById(id);
+	public ResponseEntity<CategoryDomain> findById(@PathVariable Long id){
+		CategoryDomain obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
 		
 	

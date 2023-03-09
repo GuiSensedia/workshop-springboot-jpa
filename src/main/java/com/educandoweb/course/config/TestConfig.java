@@ -3,17 +3,18 @@ package com.educandoweb.course.config;
 import java.time.Instant;
 import java.util.Arrays;
 
+import com.educandoweb.course.domain.pk.OrderItemPK;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import com.educandoweb.course.entities.Category;
-import com.educandoweb.course.entities.Order;
-import com.educandoweb.course.entities.OrderItem;
-import com.educandoweb.course.entities.Payment;
-import com.educandoweb.course.entities.Product;
-import com.educandoweb.course.entities.User;
+import com.educandoweb.course.domain.CategoryDomain;
+import com.educandoweb.course.domain.OrderDomain;
+import com.educandoweb.course.domain.OrderItemDomain;
+import com.educandoweb.course.domain.PaymentDomain;
+import com.educandoweb.course.domain.ProductDomain;
+import com.educandoweb.course.domain.UserDomain;
 import com.educandoweb.course.enums.OrderStatus;
 import com.educandoweb.course.repositories.CategoryRepository;
 import com.educandoweb.course.repositories.OrderItemRepository;
@@ -34,58 +35,152 @@ public class TestConfig implements CommandLineRunner {
 	private ProductRepository productRepository;
 	@Autowired
 	private OrderItemRepository orderItemRepository;
+	@Autowired
+	private OrderItemPK orderItemPK;
 	
 	
 	
 	@Override
 	public void run(String... args) throws Exception {
-		
-		Category cat1 = new Category(null, "Electronics");
-		Category cat2 = new Category(null, "Books");
-		Category cat3 = new Category(null, "Computers");
-		
-		Product p1 = new Product(null, "The Lord of the Rings", "Lorem ipsum dolor sit amet, consectetur.", 90.5, "");
-		Product p2 = new Product(null, "Smart TV", "Nulla eu imperdiet purus. Maecenas ante.", 2190.0, "");
-		Product p3 = new Product(null, "Macbook Pro", "Nam eleifend maximus tortor, at mollis.", 1250.0, "");
-		Product p4 = new Product(null, "PC Gamer", "Donec aliquet odio ac rhoncus cursus.", 1200.0, "");
-		Product p5 = new Product(null, "Rails for Dummies", "Cras fringilla convallis sem vel faucibus.", 100.99, "");
-		
-		categoryRepository.saveAll(Arrays.asList(cat1,cat2,cat3));
-		productRepository.saveAll(Arrays.asList(p1,p2,p3,p4,p5));
-		
-		p1.getCategories().add(cat2);
-		p2.getCategories().add(cat1);
-		p2.getCategories().add(cat3);
-		p3.getCategories().add(cat3);
-		p4.getCategories().add(cat3);
-		p5.getCategories().add(cat2);
-		
-		productRepository.saveAll(Arrays.asList(p1,p2,p3,p4,p5));
-		
-		User u1 = new User(null, "Maria Brown", "maria@gmail.com", "988888888", "123456");
-		User u2 = new User(null, "Alex Green", "alex@gmail.com", "977777777", "123456");
 
-		Order o1 = new Order(null, Instant.parse("2019-06-20T19:53:07Z"), OrderStatus.PAID, u1);
-		Order o2 = new Order(null, Instant.parse("2019-07-21T03:42:10Z"), OrderStatus.WATTING_PAYMENT, u2);
-		Order o3 = new Order(null, Instant.parse("2019-07-22T15:21:22Z"),OrderStatus.WATTING_PAYMENT, u1);
-		
-		userRepository.saveAll(Arrays.asList(u1,u2));
-		orderRepository.saveAll(Arrays.asList(o1,o2,o3));
-		
-		OrderItem oi1 = new OrderItem(o1, p1, 2, p1.getPrice());
-		OrderItem oi2 = new OrderItem(o1, p3, 1, p3.getPrice());
-		OrderItem oi3 = new OrderItem(o2, p3, 2, p3.getPrice());
-		OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
-		
-		orderItemRepository.saveAll(Arrays.asList(oi1,oi2,oi3,oi4));
-		
-		Payment pay1 = new Payment(null, Instant.parse("2019-06-20T21:53:07Z"), o1);
-		o1.setPayment(pay1);
-		
-		orderRepository.save(o1);
-		
-		
-		
+		CategoryDomain category1 = CategoryDomain.builder()
+				.name("Eletronics")
+				.build();
+		CategoryDomain category2 = CategoryDomain.builder()
+				.name("Books")
+				.build();
+		CategoryDomain category3 = CategoryDomain.builder()
+				.name("Computers")
+				.build();
+
+//		DÚVIDA: Qual a diferença / O que impacta entre instânciar um atributo nulo ou vazio?
+//		ProductDomain p1 = new ProductDomain(null, "The Lord of the Rings", "Lorem ipsum dolor sit amet, consectetur.", 90.5, "");
+
+		ProductDomain product1 = ProductDomain.builder()
+				.name("The LOrd Of The Rings")
+				.description("Lorem ipsum dolor sit amet, consectetur.")
+				.price(90.5)
+				.build();
+		ProductDomain product2 = ProductDomain.builder()
+				.name("Smart TV")
+				.description("Nulla eu imperdiet purus. Maecenas ante")
+				.price(2190.0)
+				.build();
+		ProductDomain product3 = ProductDomain.builder()
+				.name("Macbook Pro")
+				.description("Nam eleifend maximus tortor, at mollis.")
+				.price(1250.0)
+				.build();
+		ProductDomain product4 = ProductDomain.builder()
+				.name("PC Gamer")
+				.description("Donec aliquet odio ac rhoncus cursus.")
+				.price(1200.0)
+				.build();
+		ProductDomain product5 = ProductDomain.builder()
+				.name("Rails for Dummies")
+				.description("Cras fringilla convallis sem vel faucibus.")
+				.price(100.99)
+				.build();
+
+		categoryRepository.saveAll(Arrays.asList(category1,category2,category3));
+
+		product1.getCategories().add(category2);
+		product2.getCategories().add(category1);
+		product2.getCategories().add(category3);
+		product3.getCategories().add(category3);
+		product4.getCategories().add(category3);
+		product5.getCategories().add(category2);
+
+		productRepository.saveAll(Arrays.asList(product1,product2,product3,product4,product5));
+		productRepository.saveAll(Arrays.asList(product1,product2,product3,product4,product5));
+
+		UserDomain user1 = UserDomain.builder()
+				.name("Maria Brown")
+				.email("maria@gmail.com")
+				.phone("988888888")
+				.password("123456")
+				.build();
+		UserDomain user2 = UserDomain.builder()
+				.name("Alex Green")
+				.email("alex@gmail.com")
+				.phone("977777777")
+				.password("654321")
+				.build();
+
+		OrderDomain order1 = OrderDomain.builder()
+				.moment(Instant.parse("2019-06-20T19:53:07Z"))
+				.orderStatus(2)
+				.client(user1)
+				.build();
+		OrderDomain order2= OrderDomain.builder()
+				.moment(Instant.parse("2019-07-21T03:42:10Z"))
+				.orderStatus(1)
+				.client(user2)
+				.build();
+		OrderDomain order3 = OrderDomain.builder()
+				.moment(Instant.parse("2019-07-22T15:21:22Z"))
+				.orderStatus(1)
+				.client(user1)
+				.build();
+
+		userRepository.saveAll(Arrays.asList(user1,user2));
+		orderRepository.saveAll(Arrays.asList(order1,order2,order3));
+
+
+//		OrderItemDomain oi1 = new OrderItemDomain(o1, product1, 2, product1.getPrice());
+//		OrderItemDomain oi2 = new OrderItemDomain(o1, product3, 1, product3.getPrice());
+//		OrderItemDomain oi3 = new OrderItemDomain(o2, product3, 2, product3.getPrice());
+//		OrderItemDomain oi4 = new OrderItemDomain(o3, product5, 2, product5.getPrice());
+
+		//		DUVIDA: Não poderia dar um new OrderItemPk dentro do OrderItem.builder()
+		OrderItemPK orderItemPK1 = OrderItemPK.builder()
+				.order(order1)
+				.product(product1)
+				.build();
+		OrderItemPK orderItemPK2 = OrderItemPK.builder()
+				.order(order1)
+				.product(product3)
+				.build();
+		OrderItemPK orderItemPK3 = OrderItemPK.builder()
+				.order(order2)
+				.product(product3)
+				.build();
+		OrderItemPK orderItemPK4 = OrderItemPK.builder()
+				.order(order3)
+				.product(product5)
+				.build();
+
+		OrderItemDomain orderItem1 = OrderItemDomain.builder()
+				.id(orderItemPK1)
+				.quantity(2)
+				.price(orderItemPK1.getProduct().getPrice())
+				.build();
+		OrderItemDomain orderItem2 = OrderItemDomain.builder()
+				.id(orderItemPK2)
+				.quantity(1)
+				.price(orderItemPK2.getProduct().getPrice())
+				.build();
+		OrderItemDomain orderItem3 = OrderItemDomain.builder()
+				.id(orderItemPK3)
+				.quantity(2)
+				.price(product1.getPrice())
+				.build();
+		OrderItemDomain orderItem4 = OrderItemDomain.builder()
+				.id(orderItemPK4)
+				.quantity(2)
+				.price(product1.getPrice())
+				.build();
+
+		orderItemRepository.saveAll(Arrays.asList(orderItem1,orderItem2,orderItem3,orderItem4));
+
+
+		PaymentDomain payment = PaymentDomain.builder()
+				.moment(Instant.parse("2019-06-20T21:53:07Z"))
+				.order(order1)
+				.build();
+
+		order1.setPayment(payment);
+		orderRepository.save(order1);
+
 	}
-
 }
