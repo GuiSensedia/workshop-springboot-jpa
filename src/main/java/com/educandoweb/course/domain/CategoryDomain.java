@@ -35,10 +35,6 @@ public class CategoryDomain implements Serializable{
 
 	@JsonIgnore
 	@ManyToMany(mappedBy = "categories")
-	private Set<ProductDomain> products = new HashSet<>();
-
-	public Set<ProductDomain> getProducts() {
-		return products;
-	}
+	private final Set<ProductDomain> products = new HashSet<>();
 
 }

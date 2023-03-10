@@ -21,13 +21,14 @@ import com.educandoweb.course.services.UserService;
 @RestController
 @RequestMapping(value = "/users")
 public class UserController {
+
 	@Autowired
 	private UserService service;
+
 	@GetMapping
 	public ResponseEntity<List<UserDomain>> findAll() {
 		List<UserDomain> list = service.findAll();
 		return ResponseEntity.ok().body(list);
-		
 	}
 	
 	@GetMapping(value = "/{id}")
@@ -42,16 +43,17 @@ public class UserController {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).body(obj);
 	}
+
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Long id){
 		service.deleteUser(id);
 		return ResponseEntity.noContent().build();
 	}
+
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<UserDomain> update (@PathVariable Long id, @RequestBody UserDomain obj){
 		obj = service.updateUser(id, obj);
 		return ResponseEntity.ok().body(obj);
 	}
-	
-	
+
 }

@@ -36,8 +36,6 @@ public class UserDomain implements Serializable {
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "client")
-	private List<OrderDomain> orders = new ArrayList<>();
-
-
+	private final List<OrderDomain> orders = new ArrayList<>();
 
 }

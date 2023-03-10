@@ -9,13 +9,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @Entity
+@NoArgsConstructor
 @Table(name = "tb_order_item")
 public class OrderItemDomain implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -32,19 +33,6 @@ public class OrderItemDomain implements Serializable {
 		this.price = price;
 	}
 
-	@JsonIgnore
-	public OrderDomain getOrder() {
-		return id.getOrder();
-	}
-	public void setOrder(OrderDomain order) {
-		id.setOrder(order);
-	}
-	public ProductDomain getProduct() {
-		return id.getProduct();
-	}
-	public void setProduct(ProductDomain product) {
-		id.setProduct(product);
-	}
 	public Double getSubTotal() {
 		return price * quantity;
 	}

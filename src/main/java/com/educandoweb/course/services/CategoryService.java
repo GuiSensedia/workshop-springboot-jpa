@@ -17,10 +17,11 @@ public class CategoryService {
 
 	public List<CategoryDomain> findAll(){
 		return repository.findAll();
-		
 	}
+
 	public CategoryDomain findById(Long id) {
 		Optional<CategoryDomain> obj = repository.findById(id);
 		return obj.get();
 	}
+
 }

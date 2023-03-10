@@ -20,12 +20,9 @@ public class UserService {
 	
 	@Autowired
 	private UserRepository repository;
-	
-	
 
 	public List<UserDomain> findAll(){
 		return repository.findAll();
-
 	}
 	
 	public UserDomain findById(Long id) {
@@ -64,7 +61,6 @@ public class UserService {
 	entity.setName(obj.getName());
 	entity.setEmail(obj.getEmail());
 	entity.setPhone(obj.getPhone());
-		
 	}
 	
 }

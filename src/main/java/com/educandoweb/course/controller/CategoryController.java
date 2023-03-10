@@ -15,21 +15,20 @@ import com.educandoweb.course.services.CategoryService;
 @RestController
 @RequestMapping(value = "/categories")
 public class CategoryController {
+
 	@Autowired
 	private CategoryService service;
+
 	@GetMapping
 	public ResponseEntity<List<CategoryDomain>> findAll() {
 		List<CategoryDomain> list = service.findAll();
 		return ResponseEntity.ok().body(list);
-		
 	}
 	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<CategoryDomain> findById(@PathVariable Long id){
 		CategoryDomain obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
-		
-	
 	}
 	
 }

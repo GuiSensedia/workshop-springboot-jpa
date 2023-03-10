@@ -41,9 +41,9 @@ public class ProductDomain implements Serializable {
 
 	@ManyToMany
 	@JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
-	private Set<CategoryDomain> categories = new HashSet<>();
+	private final Set<CategoryDomain> categories = new HashSet<>();
 	
 	@OneToMany(mappedBy = "id.product")
-	private Set<OrderItemDomain> items = new HashSet<>();
+	private final Set<OrderItemDomain> items = new HashSet<>();
 
 }

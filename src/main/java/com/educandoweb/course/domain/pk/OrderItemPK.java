@@ -25,12 +25,10 @@ public class OrderItemPK implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = " order_id")
 	private OrderDomain order;
+
 	@ManyToOne
 	@JoinColumn(name = " product_id")
 	private ProductDomain product;
 
 }
-//		OrderItemDomain oi1 = new OrderItemDomain(o1, product1, 2, product1.getPrice());
-//		OrderItemDomain oi2 = new OrderItemDomain(o1, product3, 1, product3.getPrice());
-//		OrderItemDomain oi3 = new OrderItemDomain(o2, product3, 2, product3.getPrice());
-//		OrderItemDomain oi4 = new OrderItemDomain(o3, product5, 2, product5.getPrice());
+

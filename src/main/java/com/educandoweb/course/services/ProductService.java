@@ -19,8 +19,10 @@ public class ProductService {
 		return repository.findAll();
 		
 	}
+
 	public ProductDomain findById(Long id) {
 		Optional<ProductDomain> obj = repository.findById(id);
 		return obj.get();
 	}
+
 }

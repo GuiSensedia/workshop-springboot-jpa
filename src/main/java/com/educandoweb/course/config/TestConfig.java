@@ -25,21 +25,22 @@ import com.educandoweb.course.repositories.UserRepository;
 @Configuration
 @Profile("test")
 public class TestConfig implements CommandLineRunner {
+
 	@Autowired
 	private UserRepository userRepository;
+
 	@Autowired
 	private OrderRepository orderRepository;
+
 	@Autowired
 	private CategoryRepository categoryRepository;
+
 	@Autowired
 	private ProductRepository productRepository;
+
 	@Autowired
 	private OrderItemRepository orderItemRepository;
-	@Autowired
-	private OrderItemPK orderItemPK;
-	
-	
-	
+
 	@Override
 	public void run(String... args) throws Exception {
 
@@ -52,9 +53,7 @@ public class TestConfig implements CommandLineRunner {
 		CategoryDomain category3 = CategoryDomain.builder()
 				.name("Computers")
 				.build();
-
-//		DÚVIDA: Qual a diferença / O que impacta entre instânciar um atributo nulo ou vazio?
-//		ProductDomain p1 = new ProductDomain(null, "The Lord of the Rings", "Lorem ipsum dolor sit amet, consectetur.", 90.5, "");
+		categoryRepository.saveAll(Arrays.asList(category1,category2,category3));
 
 		ProductDomain product1 = ProductDomain.builder()
 				.name("The LOrd Of The Rings")
@@ -81,8 +80,7 @@ public class TestConfig implements CommandLineRunner {
 				.description("Cras fringilla convallis sem vel faucibus.")
 				.price(100.99)
 				.build();
-
-		categoryRepository.saveAll(Arrays.asList(category1,category2,category3));
+		productRepository.saveAll(Arrays.asList(product1,product2,product3,product4,product5));
 
 		product1.getCategories().add(category2);
 		product2.getCategories().add(category1);
@@ -90,8 +88,6 @@ public class TestConfig implements CommandLineRunner {
 		product3.getCategories().add(category3);
 		product4.getCategories().add(category3);
 		product5.getCategories().add(category2);
-
-		productRepository.saveAll(Arrays.asList(product1,product2,product3,product4,product5));
 		productRepository.saveAll(Arrays.asList(product1,product2,product3,product4,product5));
 
 		UserDomain user1 = UserDomain.builder()
@@ -106,6 +102,7 @@ public class TestConfig implements CommandLineRunner {
 				.phone("977777777")
 				.password("654321")
 				.build();
+		userRepository.saveAll(Arrays.asList(user1,user2));
 
 		OrderDomain order1 = OrderDomain.builder()
 				.moment(Instant.parse("2019-06-20T19:53:07Z"))
@@ -122,57 +119,13 @@ public class TestConfig implements CommandLineRunner {
 				.orderStatus(1)
 				.client(user1)
 				.build();
-
-		userRepository.saveAll(Arrays.asList(user1,user2));
 		orderRepository.saveAll(Arrays.asList(order1,order2,order3));
 
-
-//		OrderItemDomain oi1 = new OrderItemDomain(o1, product1, 2, product1.getPrice());
-//		OrderItemDomain oi2 = new OrderItemDomain(o1, product3, 1, product3.getPrice());
-//		OrderItemDomain oi3 = new OrderItemDomain(o2, product3, 2, product3.getPrice());
-//		OrderItemDomain oi4 = new OrderItemDomain(o3, product5, 2, product5.getPrice());
-
-		//		DUVIDA: Não poderia dar um new OrderItemPk dentro do OrderItem.builder()
-		OrderItemPK orderItemPK1 = OrderItemPK.builder()
-				.order(order1)
-				.product(product1)
-				.build();
-		OrderItemPK orderItemPK2 = OrderItemPK.builder()
-				.order(order1)
-				.product(product3)
-				.build();
-		OrderItemPK orderItemPK3 = OrderItemPK.builder()
-				.order(order2)
-				.product(product3)
-				.build();
-		OrderItemPK orderItemPK4 = OrderItemPK.builder()
-				.order(order3)
-				.product(product5)
-				.build();
-
-		OrderItemDomain orderItem1 = OrderItemDomain.builder()
-				.id(orderItemPK1)
-				.quantity(2)
-				.price(orderItemPK1.getProduct().getPrice())
-				.build();
-		OrderItemDomain orderItem2 = OrderItemDomain.builder()
-				.id(orderItemPK2)
-				.quantity(1)
-				.price(orderItemPK2.getProduct().getPrice())
-				.build();
-		OrderItemDomain orderItem3 = OrderItemDomain.builder()
-				.id(orderItemPK3)
-				.quantity(2)
-				.price(product1.getPrice())
-				.build();
-		OrderItemDomain orderItem4 = OrderItemDomain.builder()
-				.id(orderItemPK4)
-				.quantity(2)
-				.price(product1.getPrice())
-				.build();
-
+		OrderItemDomain orderItem1 = new OrderItemDomain(order1, product1, 2, product1.getPrice());
+		OrderItemDomain orderItem2 = new OrderItemDomain(order1, product3, 1, product3.getPrice());
+		OrderItemDomain orderItem3 = new OrderItemDomain(order2, product3, 2, product3.getPrice());
+		OrderItemDomain orderItem4 = new OrderItemDomain(order3, product5, 2, product5.getPrice());
 		orderItemRepository.saveAll(Arrays.asList(orderItem1,orderItem2,orderItem3,orderItem4));
-
 
 		PaymentDomain payment = PaymentDomain.builder()
 				.moment(Instant.parse("2019-06-20T21:53:07Z"))
@@ -180,6 +133,7 @@ public class TestConfig implements CommandLineRunner {
 				.build();
 
 		order1.setPayment(payment);
+
 		orderRepository.save(order1);
 
 	}

@@ -17,10 +17,11 @@ public class OrderService {
 
 	public List<OrderDomain> findAll(){
 		return repository.findAll();
-		
 	}
+
 	public OrderDomain findById(Long id) {
 		Optional<OrderDomain> obj = repository.findById(id);
 		return obj.get();
 	}
+
 }
