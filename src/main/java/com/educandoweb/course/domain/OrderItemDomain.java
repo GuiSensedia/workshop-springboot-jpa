@@ -15,7 +15,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @Entity
+@AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "tb_order_item")
 public class OrderItemDomain implements Serializable {
@@ -25,13 +27,6 @@ public class OrderItemDomain implements Serializable {
 	private OrderItemPK id = new OrderItemPK();
 	private Integer quantity;
 	private Double price;
-
-	public OrderItemDomain(OrderDomain order, ProductDomain product, Integer quantity, Double price) {
-		id.setOrder(order);
-		id.setProduct(product);
-		this.quantity = quantity;
-		this.price = price;
-	}
 
 	public Double getSubTotal() {
 		return price * quantity;

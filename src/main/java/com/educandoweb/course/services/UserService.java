@@ -3,6 +3,7 @@ package com.educandoweb.course.services;
 import java.util.List;
 import java.util.Optional;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -16,10 +17,10 @@ import com.educandoweb.course.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
-	
-	@Autowired
-	private UserRepository repository;
+
+	private final UserRepository repository;
 
 	public List<UserDomain> findAll(){
 		return repository.findAll();
@@ -48,9 +49,9 @@ public class UserService {
 	
 	public UserDomain updateUser (Long id, UserDomain obj) {
 		try {
-		UserDomain entity = repository.getReferenceById(id);
-		updateData(entity, obj);
-		return repository.save(entity);
+			UserDomain entity = repository.getReferenceById(id);
+			updateData(entity, obj);
+			return repository.save(entity);
 		}
 		catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException(id);
@@ -58,9 +59,9 @@ public class UserService {
 	}
 	
 	private void updateData(UserDomain entity, UserDomain obj) {
-	entity.setName(obj.getName());
-	entity.setEmail(obj.getEmail());
-	entity.setPhone(obj.getPhone());
+		entity.setName(obj.getName());
+		entity.setEmail(obj.getEmail());
+		entity.setPhone(obj.getPhone());
 	}
 	
 }
