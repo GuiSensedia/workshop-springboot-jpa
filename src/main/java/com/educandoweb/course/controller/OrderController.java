@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.educandoweb.course.domain.OrderDomain;
+import com.educandoweb.course.model.domain.OrderDomain;
 import com.educandoweb.course.services.OrderService;
 
 @RestController

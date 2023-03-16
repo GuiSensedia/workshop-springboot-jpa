@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.educandoweb.course.domain.CategoryDomain;
+import com.educandoweb.course.model.domain.CategoryDomain;
 import com.educandoweb.course.services.CategoryService;
 
 @RestController

@@ -1,10 +1,10 @@
-package com.educandoweb.course.domain;
+package com.educandoweb.course.model.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
+import com.educandoweb.course.model.dto.request.CreateUserRequest;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
@@ -29,13 +29,27 @@ public class UserDomain implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
 	private String name;
+
 	private String email;
+
 	private String phone;
+
 	private String password;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "client")
 	private final List<OrderDomain> orders = new ArrayList<>();
+
+	public static UserDomain valueOf(CreateUserRequest request){
+		UserDomain domain = UserDomain.builder()
+				.name(request.getName())
+				.email(request.getEmail())
+				.phone(request.getPhone())
+				.password(request.getPassword())
+				.build();
+		return domain;
+	}
 
 }

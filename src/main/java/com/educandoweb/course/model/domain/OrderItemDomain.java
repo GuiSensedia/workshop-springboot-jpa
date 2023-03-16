@@ -1,10 +1,8 @@
-package com.educandoweb.course.domain;
+package com.educandoweb.course.model.domain;
 
 import java.io.Serializable;
-import java.util.Objects;
 
-import com.educandoweb.course.domain.pk.OrderItemPK;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.educandoweb.course.model.domain.pk.OrderItemPK;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;

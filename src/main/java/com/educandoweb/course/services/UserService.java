@@ -3,13 +3,13 @@ package com.educandoweb.course.services;
 import java.util.List;
 import java.util.Optional;
 
+import com.educandoweb.course.model.dto.request.CreateUserRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.educandoweb.course.domain.UserDomain;
+import com.educandoweb.course.model.domain.UserDomain;
 import com.educandoweb.course.repositories.UserRepository;
 import com.educandoweb.course.services.exceptions.DatabaseException;
 import com.educandoweb.course.services.exceptions.ResourceNotFoundException;
@@ -31,8 +31,9 @@ public class UserService {
 		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 	
-	public UserDomain insertUser (UserDomain obj) {
-		return repository.save(obj);
+	public void createUser(CreateUserRequest request) {
+		UserDomain domain = UserDomain.valueOf(request);
+		repository.save(domain);
 	}
 	
 	public void deleteUser (long id) {

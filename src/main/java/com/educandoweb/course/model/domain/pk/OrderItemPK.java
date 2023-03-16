@@ -1,10 +1,9 @@
-package com.educandoweb.course.domain.pk;
+package com.educandoweb.course.model.domain.pk;
 
 import java.io.Serializable;
-import java.util.Objects;
 
-import com.educandoweb.course.domain.OrderDomain;
-import com.educandoweb.course.domain.ProductDomain;
+import com.educandoweb.course.model.domain.OrderDomain;
+import com.educandoweb.course.model.domain.ProductDomain;
 
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;

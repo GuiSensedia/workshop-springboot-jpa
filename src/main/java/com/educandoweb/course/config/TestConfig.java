@@ -3,20 +3,18 @@ package com.educandoweb.course.config;
 import java.time.Instant;
 import java.util.Arrays;
 
-import com.educandoweb.course.domain.pk.OrderItemPK;
+import com.educandoweb.course.model.domain.pk.OrderItemPK;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import com.educandoweb.course.domain.CategoryDomain;
-import com.educandoweb.course.domain.OrderDomain;
-import com.educandoweb.course.domain.OrderItemDomain;
-import com.educandoweb.course.domain.PaymentDomain;
-import com.educandoweb.course.domain.ProductDomain;
-import com.educandoweb.course.domain.UserDomain;
-import com.educandoweb.course.enums.OrderStatus;
+import com.educandoweb.course.model.domain.CategoryDomain;
+import com.educandoweb.course.model.domain.OrderDomain;
+import com.educandoweb.course.model.domain.OrderItemDomain;
+import com.educandoweb.course.model.domain.PaymentDomain;
+import com.educandoweb.course.model.domain.ProductDomain;
+import com.educandoweb.course.model.domain.UserDomain;
 import com.educandoweb.course.repositories.CategoryRepository;
 import com.educandoweb.course.repositories.OrderItemRepository;
 import com.educandoweb.course.repositories.OrderRepository;
