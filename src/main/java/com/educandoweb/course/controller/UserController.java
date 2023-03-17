@@ -3,6 +3,7 @@ package com.educandoweb.course.controller;
 import java.util.List;
 
 import com.educandoweb.course.model.dto.request.CreateUserRequest;
+import com.educandoweb.course.model.dto.response.GetUserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,15 +28,16 @@ public class UserController {
 	private UserService service;
 
 	@GetMapping
-	public ResponseEntity<List<UserDomain>> findAll() {
-		List<UserDomain> list = service.findAll();
+	public ResponseEntity<List<GetUserResponse>> findAll() {
+		List<GetUserResponse> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 	}
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<UserDomain> findById(@PathVariable Long id){
-		UserDomain obj = service.findById(id);
-		return ResponseEntity.ok().body(obj);
+	@ResponseStatus(HttpStatus.OK)
+	public GetUserResponse findUserById(@PathVariable Long id){
+		GetUserResponse response = service.findUserById(id);
+		return response;
 	}
 
 	@PostMapping

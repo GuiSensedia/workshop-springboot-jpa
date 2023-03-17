@@ -2,8 +2,10 @@ package com.educandoweb.course.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.educandoweb.course.model.dto.request.CreateUserRequest;
+import com.educandoweb.course.model.dto.response.GetUserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -22,13 +24,21 @@ public class UserService {
 
 	private final UserRepository repository;
 
-	public List<UserDomain> findAll(){
-		return repository.findAll();
+//	public List<UserDomain> findAll(){
+//		return repository.findAll();
+//	}
+
+	public List<GetUserResponse> findAll() {
+		List<UserDomain> domain = repository.findAll();
+		return domain.stream()
+				.map(GetUserResponse::valueOf)
+				.collect(Collectors.toList());
 	}
-	
-	public UserDomain findById(Long id) {
-		Optional<UserDomain> obj = repository.findById(id);
-		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
+
+	public GetUserResponse findUserById(Long id) {
+		Optional<UserDomain> domain = repository.findById(id);
+		GetUserResponse response = GetUserResponse.valueOf(domain.get());
+		return response;
 	}
 	
 	public void createUser(CreateUserRequest request) {
