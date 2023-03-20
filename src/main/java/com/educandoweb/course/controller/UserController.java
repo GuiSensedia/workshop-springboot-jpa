@@ -3,6 +3,7 @@ package com.educandoweb.course.controller;
 import java.util.List;
 
 import com.educandoweb.course.model.dto.request.CreateUserRequest;
+import com.educandoweb.course.model.dto.request.UpdateUserRequest;
 import com.educandoweb.course.model.dto.response.GetUserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,9 +29,10 @@ public class UserController {
 	private UserService service;
 
 	@GetMapping
-	public ResponseEntity<List<GetUserResponse>> findAll() {
-		List<GetUserResponse> list = service.findAll();
-		return ResponseEntity.ok().body(list);
+	@ResponseStatus(HttpStatus.OK)
+	public List<GetUserResponse> findAll() {
+		List<GetUserResponse> responseList = service.findAll();
+		return responseList;
 	}
 	
 	@GetMapping(value = "/{id}")
@@ -48,15 +50,15 @@ public class UserController {
 	}
 
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<Void> delete(@PathVariable Long id){
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void delete(@PathVariable Long id){
 		service.deleteUser(id);
-		return ResponseEntity.noContent().build();
 	}
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<UserDomain> update (@PathVariable Long id, @RequestBody UserDomain obj){
-		obj = service.updateUser(id, obj);
-		return ResponseEntity.ok().body(obj);
+	@ResponseStatus(HttpStatus.OK)
+	public void updateUser (@PathVariable Long id, @RequestBody UpdateUserRequest updateUser){
+		service.updateUser(id, updateUser);
 	}
 
 }

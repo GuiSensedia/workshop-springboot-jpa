@@ -2,11 +2,14 @@ package com.educandoweb.course.controller;
 
 import java.util.List;
 
+import com.educandoweb.course.model.dto.response.GetOrderResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.educandoweb.course.model.domain.OrderDomain;
@@ -21,15 +24,17 @@ public class OrderController {
 	private OrderService service;
 
 	@GetMapping
-	public ResponseEntity<List<OrderDomain>> findAll() {
-		List<OrderDomain> list = service.findAll();
-		return ResponseEntity.ok().body(list);
+	@ResponseStatus(HttpStatus.OK)
+	public List<GetOrderResponse> findAll() {
+		List<GetOrderResponse> listOrder = service.findAll();
+		return listOrder;
 	}
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<OrderDomain> findById(@PathVariable Long id){
-		OrderDomain obj = service.findById(id);
-		return ResponseEntity.ok().body(obj);
+	@ResponseStatus(HttpStatus.OK)
+	public GetOrderResponse findById(@PathVariable Long id){
+		GetOrderResponse orderResponse = service.findById(id);
+		return orderResponse;
 	}
 	
 }
