@@ -55,40 +55,37 @@ public class TestConfig implements CommandLineRunner {
 		ProductDomain product1 = ProductDomain.builder()
 				.name("The Lord Of The Rings")
 				.description("Lorem ipsum dolor sit amet, consectetur.")
+				.category(category2)
 				.price(90.5)
 				.build();
 
 		ProductDomain product2 = ProductDomain.builder()
 				.name("Smart TV")
 				.description("Nulla eu imperdiet purus. Maecenas ante")
+				.category(category1)
 				.price(2190.0)
 				.build();
 
 		ProductDomain product3 = ProductDomain.builder()
 				.name("Macbook Pro")
 				.description("Nam eleifend maximus tortor, at mollis.")
+				.category(category3)
 				.price(1250.0)
 				.build();
 
 		ProductDomain product4 = ProductDomain.builder()
 				.name("PC Gamer")
 				.description("Donec aliquet odio ac rhoncus cursus.")
+				.category(category1)
 				.price(1200.0)
 				.build();
 
 		ProductDomain product5 = ProductDomain.builder()
 				.name("Rails for Dummies")
 				.description("Cras fringilla convallis sem vel faucibus.")
+				.category(category2)
 				.price(100.99)
 				.build();
-		productRepository.saveAll(Arrays.asList(product1,product2,product3,product4,product5));
-
-		product1.getCategories().add(category2);
-		product2.getCategories().add(category1);
-		product2.getCategories().add(category3);
-		product3.getCategories().add(category3);
-		product4.getCategories().add(category3);
-		product5.getCategories().add(category2);
 		productRepository.saveAll(Arrays.asList(product1,product2,product3,product4,product5));
 
 		UserDomain user1 = UserDomain.builder()

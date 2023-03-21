@@ -32,8 +32,4 @@ public class CategoryDomain implements Serializable{
 
 	private String name;
 
-	@JsonIgnore
-	@ManyToMany(mappedBy = "categories")
-	private final Set<ProductDomain> products = new HashSet<>();
-
 }
