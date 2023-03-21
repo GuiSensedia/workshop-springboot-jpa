@@ -17,14 +17,14 @@ public class ProductService {
 
 	private final ProductRepository repository;
 
-	public List<GetProductResponse> findAll(){
+	public List<GetProductResponse> getAllProducts(){
 		List<ProductDomain> productDomain = repository.findAll();
 		return productDomain.stream()
 				.map(GetProductResponse::valueOf)
 				.collect(Collectors.toList());
 	}
 
-	public GetProductResponse findById(Long id) {
+	public GetProductResponse getProductById(Long id) {
 		Optional<ProductDomain> productDomain = repository.findById(id);
 		GetProductResponse productResponse = GetProductResponse.valueOf(productDomain.get());
 		return productResponse;

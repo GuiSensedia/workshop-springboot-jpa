@@ -17,8 +17,6 @@ import com.educandoweb.course.repositories.UserRepository;
 import com.educandoweb.course.services.exceptions.DatabaseException;
 import com.educandoweb.course.services.exceptions.ResourceNotFoundException;
 
-import jakarta.persistence.EntityNotFoundException;
-
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -29,14 +27,14 @@ public class UserService {
 //		return repository.findAll();
 //	}
 
-    public List<GetUserResponse> findAll() {
+    public List<GetUserResponse> getAllUsers() {
         List<UserDomain> domain = repository.findAll();
         return domain.stream()
                 .map(GetUserResponse::valueOf)
                 .collect(Collectors.toList());
     }
 
-    public GetUserResponse findUserById(Long id) {
+    public GetUserResponse getUserById(Long id) {
         Optional<UserDomain> domain = repository.findById(id);
         GetUserResponse response = GetUserResponse.valueOf(domain.get());
         return response;

@@ -19,14 +19,14 @@ public class CategoryService {
 
 	private final CategoryRepository repository;
 
-	public List<GetCategoryResponse> findAll(){
+	public List<GetCategoryResponse> getAllCategories(){
 		List<CategoryDomain> categoryDomain = repository.findAll();
 		return categoryDomain.stream()
 				.map(GetCategoryResponse::valueOf)
 				.collect(Collectors.toList());
 	}
 
-	public GetCategoryResponse findById(Long id) {
+	public GetCategoryResponse getCategoryById(Long id) {
 		Optional<CategoryDomain> categoryDomain = repository.findById(id);
 		GetCategoryResponse categoryResponse = GetCategoryResponse.valueOf(categoryDomain.get());
 		return categoryResponse;

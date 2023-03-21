@@ -24,15 +24,15 @@ public class CategoryController {
 
 	@GetMapping
 	@ResponseStatus(HttpStatus.OK)
-	public List<GetCategoryResponse> findAll() {
-		List<GetCategoryResponse> listCategories = service.findAll();
+	public List<GetCategoryResponse> getAllCategories() {
+		List<GetCategoryResponse> listCategories = service.getAllCategories();
 		return listCategories;
 	}
 	
 	@GetMapping(value = "/{id}")
 	@ResponseStatus(HttpStatus.OK)
-	public GetCategoryResponse findById(@PathVariable Long id){
-		GetCategoryResponse categoryResponse = service.findById(id);
+	public GetCategoryResponse getCategoryById(@PathVariable Long id){
+		GetCategoryResponse categoryResponse = service.getCategoryById(id);
 		return categoryResponse;
 	}
 	

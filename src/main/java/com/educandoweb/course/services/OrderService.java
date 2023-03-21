@@ -19,17 +19,18 @@ public class OrderService {
 
 	private final OrderRepository repository;
 
-	public List<GetOrderResponse> findAll() {
+	public List<GetOrderResponse> getAllOrders() {
 		List<OrderDomain> orderDomain = repository.findAll();
 		return orderDomain.stream()
 				.map(GetOrderResponse::valueOf)
 				.collect(Collectors.toList());
 	}
 
-	public GetOrderResponse findById(Long id) {
+	public GetOrderResponse getOrderById(Long id) {
 		Optional<OrderDomain> orderDomain = repository.findById(id);
 		GetOrderResponse orderResponse = GetOrderResponse.valueOf(orderDomain.get());
 		return orderResponse;
 	}
 
 }
+
