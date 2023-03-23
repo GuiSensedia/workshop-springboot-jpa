@@ -1,7 +1,9 @@
 package com.educandoweb.course.model.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.Entity;
@@ -38,6 +40,6 @@ public class ProductDomain implements Serializable {
 	private CategoryDomain category;
 	
 	@OneToMany(mappedBy = "id.product")
-	private final Set<OrderItemDomain> items = new HashSet<>();
+	private final List<OrderItemDomain> items = new ArrayList<>();
 
 }

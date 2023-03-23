@@ -7,9 +7,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.aspectj.weaver.ast.Literal;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Builder
@@ -22,7 +25,7 @@ public class GetOrderResponse {
 
     private Integer orderStatus;
 
-    private Set<OrderItemDomain> orderItem = new HashSet<>();
+    private List<OrderItemDomain> orderItem = new ArrayList<>();
 
     public static GetOrderResponse valueOf(OrderDomain orderDomain){
         GetOrderResponse oderResponse = GetOrderResponse.builder()

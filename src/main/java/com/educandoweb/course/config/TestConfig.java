@@ -153,8 +153,8 @@ public class TestConfig implements CommandLineRunner {
 				.build();
 
 		order1.setPayment(payment);
-
 		orderRepository.save(order1);
+
 
 	}
 }
