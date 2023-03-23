@@ -1,19 +1,17 @@
 package com.educandoweb.course.model.dto.response;
 
 import com.educandoweb.course.model.domain.OrderDomain;
-import com.educandoweb.course.model.domain.OrderItemDomain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.aspectj.weaver.ast.Literal;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.stream.Collectors;
+
 
 @Builder
 @Data
@@ -25,14 +23,16 @@ public class GetOrderResponse {
 
     private Integer orderStatus;
 
-    private List<OrderItemDomain> orderItem = new ArrayList<>();
+    private List<GetOrderItemResponse> orderItem = new ArrayList<>();
 
     public static GetOrderResponse valueOf(OrderDomain orderDomain){
-        GetOrderResponse oderResponse = GetOrderResponse.builder()
+        GetOrderResponse orderResponse = GetOrderResponse.builder()
                 .moment(orderDomain.getMoment())
                 .orderStatus(orderDomain.getOrderStatus())
-                .orderItem(orderDomain.getItems())
+                .orderItem(orderDomain.getItems()
+                        .stream()
+                        .map(GetOrderItemResponse::valueOf).collect(Collectors.toList()))
                 .build();
-        return oderResponse;
+        return orderResponse;
     }
 }

@@ -23,10 +23,6 @@ public class UserService {
 
     private final UserRepository repository;
 
-//	public List<UserDomain> findAll(){
-//		return repository.findAll();
-//	}
-
     public List<GetUserResponse> getAllUsers() {
         List<UserDomain> domain = repository.findAll();
         return domain.stream()
