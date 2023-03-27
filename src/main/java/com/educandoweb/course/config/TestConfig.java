@@ -111,7 +111,6 @@ public class TestConfig implements CommandLineRunner {
 
 		OrderDomain order2= OrderDomain.builder()
 				.moment(Instant.parse("2019-07-21T03:42:10Z"))
-				.orderStatus(1)
 				.client(user2)
 				.build();
 
