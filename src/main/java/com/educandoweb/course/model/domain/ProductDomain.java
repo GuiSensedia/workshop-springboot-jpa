@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.educandoweb.course.model.dto.request.CreateProductRequest;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -35,5 +36,15 @@ public class ProductDomain implements Serializable {
 	
 	@OneToMany(mappedBy = "id.product")
 	private final List<OrderItemDomain> items = new ArrayList<>();
+
+	public static  ProductDomain valueOf(CreateProductRequest request){
+		ProductDomain domain = ProductDomain.builder()
+				.name(request.getName())
+				.description(request.getDescription())
+				.price(request.getPrice())
+				.category(request.getCategory())
+				.build();
+		return domain;
+	}
 
 }

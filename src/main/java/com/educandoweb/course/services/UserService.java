@@ -64,6 +64,7 @@ public class UserService {
         userDomain.setName(updateUserRequest.getName());
         userDomain.setEmail(updateUserRequest.getEmail());
         userDomain.setPhone(updateUserRequest.getPhone());
+        userDomain.setPassword(updateUserRequest.getPassword());
 		repository.save(userDomain);
     }
 }

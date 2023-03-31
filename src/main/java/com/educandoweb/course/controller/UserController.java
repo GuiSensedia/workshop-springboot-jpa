@@ -5,6 +5,7 @@ import java.util.List;
 import com.educandoweb.course.model.dto.request.CreateUserRequest;
 import com.educandoweb.course.model.dto.request.UpdateUserRequest;
 import com.educandoweb.course.model.dto.response.GetUserResponse;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -42,7 +43,7 @@ public class UserController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public void createUser (@RequestBody CreateUserRequest request){
+	public void createUser (@RequestBody @Valid CreateUserRequest request){
 		service.createUser(request);
 	}
 
@@ -54,7 +55,7 @@ public class UserController {
 
 	@PutMapping(value = "/{id}")
 	@ResponseStatus(HttpStatus.OK)
-	public void updateUser (@PathVariable Long id, @RequestBody UpdateUserRequest updateUser){
+	public void updateUser (@PathVariable Long id, @RequestBody @Valid UpdateUserRequest updateUser){
 		service.updateUser(id, updateUser);
 	}
 

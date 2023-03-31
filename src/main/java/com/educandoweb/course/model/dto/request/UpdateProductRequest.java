@@ -1,8 +1,8 @@
 package com.educandoweb.course.model.dto.request;
 
-import jakarta.validation.constraints.Email;
+import com.educandoweb.course.model.domain.CategoryDomain;
+import jakarta.persistence.Entity;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,16 +12,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class UpdateUserRequest {
+public class UpdateProductRequest {
+
     @NotEmpty
     private String name;
     @NotEmpty
-    @Email
-    private String email;
+    private String description;
     @NotEmpty
-    private String phone;
+    private Double price;
     @NotEmpty
-    @Size(min = 8, max = 12)
-    private String password
-;
+    private CategoryDomain category;
+
 }

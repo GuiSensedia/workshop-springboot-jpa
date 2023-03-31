@@ -21,9 +21,6 @@ paths:
       summary: "Find User by ID"
       description: "Returns a single User"
       operationId: "getUserById"
-      produces:
-        - "application/xml"
-        - "application/json"
       parameters:
         - name: "id"
           in: "path"
@@ -40,17 +37,12 @@ paths:
           description: "Invalid ID Supplied"
         "404":
           description: "User Not Found"
-      security:
-        - api_key: []
     delete:
       tags:
         - "User"
       summary: "Deletes a User by Id"
       description: "Delete a user of the database"
       operationId: "deleteUser"
-      produces:
-        - "application/xml"
-        - "application/json"
       parameters:
         - name: "id"
           in: "path"
@@ -65,10 +57,6 @@ paths:
           description: "Invalid ID Supplied"
         "404":
           description: "User not found"
-      security:
-        - petstore_auth:
-            - "write:pets"
-            - "read:pets"
   /users:
     get:
       tags:
@@ -76,28 +64,17 @@ paths:
       summary: "Get All Users"
       description: "Return All User"
       operationId: "getUsers"
-      produces:
-        - "application/xml"
-        - "application/json"
       responses:
         "200":
           description: "successful operation"
           schema:
-            $ref: "#/definitions/User"
-      security:
-        - api_key: []
+            $ref: "#/definitions/GetUsersResponse"
     post:
       tags:
         - "User"
       summary: "Post New User"
       description: "Add new user to the database"
       operationId: "addUser"
-      consumes:
-        - "application/json"
-        - "application/xml"
-      produces:
-        - "application/xml"
-        - "application/json"
       parameters:
         - in: "body"
           name: "body"
@@ -110,29 +87,19 @@ paths:
           description: "Invalid input user"
         "201":
           description: "Created new user"
-      security:
-        - petstore_auth:
-            - "write:pets"
-            - "read:pets"
     put:
       tags:
         - "User"
       summary: "Update an existing User"
       description: "Updating an existing user's data"
       operationId: "updateUser"
-      consumes:
-        - "application/json"
-        - "application/xml"
-      produces:
-        - "application/xml"
-        - "application/json"
       parameters:
         - in: "body"
           name: "body"
           description: "User object that needs to be update to the database."
           required: true
           schema:
-            $ref: "#/definitions/User"
+            $ref: "#/definitions/PutUserRequest"
       responses:
         "400":
           description: "Invalid ID Supplied"
@@ -140,10 +107,6 @@ paths:
           description: "User Not Found"
         "200":
           description: "OK - Updated User"
-      security:
-        - petstore_auth:
-            - "write:pets"
-            - "read:pets"
   /products/{id}:
     get:
       tags:
@@ -151,9 +114,6 @@ paths:
       summary: "Get Products by ID"
       description: "Returns a single Product"
       operationId: "getUProductById"
-      produces:
-        - "application/xml"
-        - "application/json"
       parameters:
         - name: "id"
           in: "path"
@@ -170,8 +130,6 @@ paths:
           description: "Invalid ID Supplied"
         "404":
           description: "Product Not Found"
-      security:
-        - api_key: []
   /products:
     get:
       tags:
@@ -179,16 +137,11 @@ paths:
       summary: "Get All Products"
       description: "Return All Products"
       operationId: "getProducts"
-      produces:
-        - "application/xml"
-        - "application/json"
       responses:
         "200":
           description: "Successful Operation"
           schema:
-            $ref: "#/definitions/Product"
-      security:
-        - api_key: []
+            $ref: "#/definitions/GetProductsResponse"
   /categories/{id}:
     get:
       tags:
@@ -196,9 +149,6 @@ paths:
       summary: "Find Category by ID"
       description: "Returns a single Category"
       operationId: "getCategoryById"
-      produces:
-        - "application/xml"
-        - "application/json"
       parameters:
         - name: "id"
           in: "path"
@@ -215,8 +165,6 @@ paths:
           description: "Invalid ID Supplied"
         "404":
           description: "Category Not Found"
-      security:
-        - api_key: []
   /categories:
     get:
       tags:
@@ -224,16 +172,11 @@ paths:
       summary: "Get All CAtegories"
       description: "Return All Categories"
       operationId: "getCategories"
-      produces:
-        - "application/xml"
-        - "application/json"
       responses:
         "200":
           description: "Successful Operation"
           schema:
-            $ref: "#/definitions/Category"
-      security:
-        - api_key: []
+            $ref: "#/definitions/GetCategoriesResponse"
   /orders/{id}:
     get:
       tags:
@@ -241,9 +184,6 @@ paths:
       summary: "Find Order by ID"
       description: "Returns a single Order"
       operationId: "getOrderById"
-      produces:
-        - "application/xml"
-        - "application/json"
       parameters:
         - name: "id"
           in: "path"
@@ -260,8 +200,6 @@ paths:
           description: "Invalid ID Supplied"
         "404":
           description: "Order Not Found"
-      security:
-        - api_key: []
   /orders:
     get:
       tags:
@@ -269,47 +207,17 @@ paths:
       summary: "Get All Orders"
       description: "Return All Orders"
       operationId: "getOrders"
-      produces:
-        - "application/xml"
-        - "application/json"
       responses:
         "200":
           description: "Successful Operation"
           schema:
             $ref: "#/definitions/Order"
-      security:
-        - api_key: []
-securityDefinitions:
-  petstore_auth:
-    type: "oauth2"
-    authorizationUrl: "http://petstore.swagger.io/oauth/dialog"
-    flow: "implicit"
-    scopes:
-      write:pets: "modify pets in your account"
-      read:pets: "read your pets"
-  api_key:
-    type: "apiKey"
-    name: "api_key"
-    in: "header"
 definitions:
-  Tag:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      name:
-        type: "string"
-    xml:
-      name: "Tag"
   User:
     type: "object"
     required:
       - "name"
     properties:
-      id:
-        type: "integer"
-        format: "int64"
       name:
         type: "string"
       email:
@@ -318,39 +226,51 @@ definitions:
         type: "string"
       password:
         type: "string"
-    xml:
-      name: "User"
+  GetUsersResponse:
+    type: "array"
+    items:
+      $ref: "#/definitions/User"
+  PutUserRequest:
+    type: "object"
+    required:
+      - "name"
+    properties:
+      name:
+        type: "string"
+      email:
+        type: "string"
+      phone:
+        type: "string"
   Category:
     type: "object"
     required:
       - "name"
     properties:
-      id:
-        type: "integer"
-        format: "int64"
       name:
         type: "string"
-    xml:
-      name: "Category"
+  GetCategoriesResponse:
+    type: "array"
+    items:
+      $ref: "#/definitions/Category"
   Product:
     type: "object"
     required:
       - "name"
     properties:
-      id:
-        type: "integer"
-        format: "int64"
       name:
         type: "string"
-      descriprion:
+      description:
         type: "string"
       price:
         type: "number"
         format: "double"
+        example: "11.11"
       category:
         type: "string"
-    xml:
-      name: "Product"
+  GetProductsResponse:
+    type: "array"
+    items:
+      $ref: "#/definitions/Product"
   OrderItem:
     type: "object"
     properties:
@@ -367,8 +287,6 @@ definitions:
       subTotal:
         type: "number"
         format: "double"
-    xml:
-      name: "OrderItem"
   Order:
     type: "object"
     properties:
@@ -391,18 +309,3 @@ definitions:
         type: "array"
         items:
           $ref: "#/definitions/OrderItem"
-    xml:
-      name: "Order"
-  ApiResponse:
-    type: "object"
-    properties:
-      code:
-        type: "integer"
-        format: "int32"
-      type:
-        type: "string"
-      message:
-        type: "string"
-externalDocs:
-  description: "Find out more about Swagger"
-  url: "http://swagger.io"
