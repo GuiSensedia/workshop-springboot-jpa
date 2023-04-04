@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.educandoweb.course.model.domain.CategoryDomain;
 import com.educandoweb.course.model.dto.request.CreateProductRequest;
 import com.educandoweb.course.model.dto.request.UpdateProductRequest;
 import com.educandoweb.course.model.dto.response.GetProductResponse;
+import com.educandoweb.course.repositories.CategoryRepository;
 import com.educandoweb.course.services.exceptions.DatabaseException;
 import com.educandoweb.course.services.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ import com.educandoweb.course.repositories.ProductRepository;
 public class ProductService {
 
 	private final ProductRepository repository;
+	private final CategoryRepository categoryRepository;
 
 	public List<GetProductResponse> getAllProducts(){
 		List<ProductDomain> productDomain = repository.findAll();
@@ -37,8 +40,14 @@ public class ProductService {
 	}
 
 	public void createProduct(CreateProductRequest request){
-		ProductDomain domain = ProductDomain.valueOf(request);
-		repository.save(domain);
+		Optional<CategoryDomain> categoryDomain = categoryRepository.findById(request.getId());
+		if (categoryDomain.isPresent()){
+			ProductDomain domain = ProductDomain.valueOf(request, categoryDomain.get());
+			repository.save(domain);
+		} else {
+			throw new ResourceNotFoundException(request.getId());
+		}
+
 	}
 
 	public void deleteProduct (Long id){
@@ -51,20 +60,25 @@ public class ProductService {
 		}
 	}
 
-	public void updateProduct(Long id, UpdateProductRequest updateProduct) {
+	public void updateProduct(Long id, UpdateProductRequest updateProductRequest) {
 		Optional<ProductDomain> domain = repository.findById(id);
 		if (domain.isPresent()) {
-			updateData(domain.get(), updateProduct);
+			Optional<CategoryDomain> categoryDomain = categoryRepository.findById(updateProductRequest.getIdCategory());
+			if (categoryDomain.isPresent()) {
+				updateData(domain.get(), updateProductRequest, categoryDomain.get());
+			} else {
+				throw new ResourceNotFoundException(updateProductRequest.getIdCategory());
+			}
 		} else {
 			throw new ResourceNotFoundException(id);
 		}
 	}
 
-	private void updateData(ProductDomain productDomain, UpdateProductRequest updateProductRequest) {
+	private void updateData(ProductDomain productDomain, UpdateProductRequest updateProductRequest, CategoryDomain categoryDomain ) {
 		productDomain.setName(updateProductRequest.getName());
 		productDomain.setDescription(updateProductRequest.getDescription());
 		productDomain.setPrice(updateProductRequest.getPrice());
-		productDomain.setCategory(updateProductRequest.getCategory());
+		productDomain.setCategory(categoryDomain);
 		repository.save(productDomain);
 	}
 

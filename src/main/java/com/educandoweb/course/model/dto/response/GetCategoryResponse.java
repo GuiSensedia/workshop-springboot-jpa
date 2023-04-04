@@ -12,10 +12,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GetCategoryResponse {
 
+    private Long id;
+
     private String name;
 
     public static GetCategoryResponse valueOf(CategoryDomain categoryDomain){
         GetCategoryResponse categoryResponse = GetCategoryResponse.builder()
+                .id(categoryDomain.getId())
                 .name(categoryDomain.getName())
                 .build();
         return categoryResponse;

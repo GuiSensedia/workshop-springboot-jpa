@@ -37,12 +37,12 @@ public class ProductDomain implements Serializable {
 	@OneToMany(mappedBy = "id.product")
 	private final List<OrderItemDomain> items = new ArrayList<>();
 
-	public static  ProductDomain valueOf(CreateProductRequest request){
+	public static  ProductDomain valueOf(CreateProductRequest request, CategoryDomain category){
 		ProductDomain domain = ProductDomain.builder()
 				.name(request.getName())
 				.description(request.getDescription())
 				.price(request.getPrice())
-				.category(request.getCategory())
+				.category(category)
 				.build();
 		return domain;
 	}

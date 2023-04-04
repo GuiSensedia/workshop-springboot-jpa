@@ -22,6 +22,5 @@ public class UpdateUserRequest {
     private String phone;
     @NotEmpty
     @Size(min = 8, max = 12)
-    private String password
-;
+    private String password;
 }

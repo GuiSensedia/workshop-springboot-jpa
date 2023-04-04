@@ -53,6 +53,7 @@ public class ProductController {
 	public void deleteProduct (@PathVariable Long id){
 		service.deleteProduct(id);
 	}
+
 	@PutMapping(value = "/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public void updateProduct (@PathVariable Long id, @RequestBody @Valid UpdateProductRequest updateProduct){

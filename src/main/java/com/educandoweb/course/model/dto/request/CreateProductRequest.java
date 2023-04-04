@@ -1,7 +1,8 @@
 package com.educandoweb.course.model.dto.request;
 
-import com.educandoweb.course.model.domain.CategoryDomain;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,10 +15,12 @@ import lombok.NoArgsConstructor;
 public class CreateProductRequest {
     @NotEmpty
     private String name;
+
     private String description;
-    @NotEmpty
+    @NotNull
+    @Min(0)
     private Double price;
-    @NotEmpty
-    private CategoryDomain category;
+    @NotNull
+    private Long id;
 
 }
