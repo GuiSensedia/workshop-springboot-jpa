@@ -73,19 +73,21 @@ public class ProductService {
 		log.info("Finding product with id {}", id);
 		Optional<ProductDomain> optionalProduct = repository.findById(id);
 		ProductDomain productDomain = optionalProduct.orElseThrow(() -> new ResourceNotFoundException(id));
+
 		log.info("Finding Category with id {}", updateProductRequest.getIdCategory());
 		Optional<CategoryDomain> optionalCategory = categoryRepository.findById(updateProductRequest.getIdCategory());
 		CategoryDomain categoryDomain = optionalCategory.orElseThrow(() -> new ResourceNotFoundException(updateProductRequest.getIdCategory()));
-		log.info("Saving new product in database");
+
 		updateProductsFields(productDomain, updateProductRequest, categoryDomain);
 	}
 
 	private void updateProductsFields(ProductDomain productDomain, UpdateProductRequest updateProductRequest, CategoryDomain categoryDomain ) {
-		log.info("Setting Product's data that update");
+		log.info("Setting Product's fields that requested");
 		productDomain.setName(updateProductRequest.getName());
 		productDomain.setDescription(updateProductRequest.getDescription());
 		productDomain.setPrice(updateProductRequest.getPrice());
 		productDomain.setCategory(categoryDomain);
+		log.info("Saving product updating");
 		repository.save(productDomain);
 	}
 
