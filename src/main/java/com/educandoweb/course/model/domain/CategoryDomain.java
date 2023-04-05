@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.educandoweb.course.model.dto.request.CreateCategoryRequest;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
@@ -31,5 +32,12 @@ public class CategoryDomain implements Serializable{
 	private Long id;
 
 	private String name;
+
+	public static CategoryDomain valueOf (CreateCategoryRequest request){
+		CategoryDomain domain = CategoryDomain.builder()
+				.name(request.getName())
+				.build();
+		return domain;
+	}
 
 }
