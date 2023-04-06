@@ -14,17 +14,17 @@ schemes:
   - "https"
   - "http"
 paths:
-  /users/{id}:
+  /user/{id}:
     get:
       tags:
         - "User"
-      summary: "Find User by ID"
-      description: "Returns a single User"
+      summary: "Get User"
+      description: "Returns an User by Id"
       operationId: "getUserById"
       parameters:
         - name: "id"
           in: "path"
-          description: "ID of User to return"
+          description: "User Id to return"
           required: true
           type: "integer"
           format: "int64"
@@ -34,14 +34,14 @@ paths:
           schema:
             $ref: "#/definitions/User"
         "400":
-          description: "Invalid ID Supplied"
+          description: "Invalid Id Supplied"
         "404":
           description: "User Not Found"
     delete:
       tags:
         - "User"
-      summary: "Deletes a User by Id"
-      description: "Delete a user of the database"
+      summary: "Deletes an User"
+      description: "Delete an User by Id"
       operationId: "deleteUser"
       parameters:
         - name: "id"
@@ -54,15 +54,41 @@ paths:
         "204":
           description: "Deleted User"
         "400":
-          description: "Invalid ID Supplied"
+          description: "Invalid Id Supplied"
         "404":
           description: "User not found"
+    put:
+      tags:
+        - "User"
+      summary: "Update User"
+      description: "Updating an existing user's fields"
+      operationId: "updateUser"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "User Id to updating"
+          required: true
+          type: "integer"
+          format: "int64"
+        - in: "body"
+          name: "body"
+          description: "User's fields that needs to be update."
+          required: true
+          schema:
+            $ref: "#/definitions/PutUserRequest"
+      responses:
+        "400":
+          description: "Invalid Id Supplied"
+        "404":
+          description: "User Not Found"
+        "200":
+          description: "OK - Updated User"
   /users:
     get:
       tags:
         - "User"
       summary: "Get All Users"
-      description: "Return All User"
+      description: "Returns all User"
       operationId: "getUsers"
       responses:
         "200":
@@ -73,12 +99,12 @@ paths:
       tags:
         - "User"
       summary: "Post New User"
-      description: "Add new user to the database"
+      description: "Add new user"
       operationId: "addUser"
       parameters:
         - in: "body"
           name: "body"
-          description: "User object that needs to be added to the Database."
+          description: "User's field that needs to be post."
           required: true
           schema:
             $ref: "#/definitions/User"
@@ -87,37 +113,17 @@ paths:
           description: "Invalid input user"
         "201":
           description: "Created new user"
-    put:
-      tags:
-        - "User"
-      summary: "Update an existing User"
-      description: "Updating an existing user's data"
-      operationId: "updateUser"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "User object that needs to be update to the database."
-          required: true
-          schema:
-            $ref: "#/definitions/PutUserRequest"
-      responses:
-        "400":
-          description: "Invalid ID Supplied"
-        "404":
-          description: "User Not Found"
-        "200":
-          description: "OK - Updated User"
-  /products/{id}:
+  /product/{id}:
     get:
       tags:
         - "Product"
-      summary: "Get Products by ID"
-      description: "Returns a single Product"
+      summary: "Get Product"
+      description: "Get an product"
       operationId: "getUProductById"
       parameters:
         - name: "id"
           in: "path"
-          description: "ID of Product to return"
+          description: "Product Id to return"
           required: true
           type: "integer"
           format: "int64"
@@ -127,14 +133,61 @@ paths:
           schema:
             $ref: "#/definitions/Product"
         "400":
-          description: "Invalid ID Supplied"
+          description: "Invalid Id Supplied"
         "404":
           description: "Product Not Found"
+
+    delete:
+      tags:
+        - "Product"
+      summary: "Deletes an product"
+      description: "Delete an existing Product"
+      operationId: "deleteProduct"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "Product Id to delete"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        "204":
+          description: "Deleted Product"
+        "400":
+          description: "Invalid ID Supplied"
+        "404":
+          description: "Product not found"
+    put:
+      tags:
+        - "Product"
+      summary: "Update an Product"
+      description: "Updating an existing Product's fields"
+      operationId: "updateProduct"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "Product id to updating"
+          required: true
+          type: "integer"
+          format: "int64"
+        - in: "body"
+          name: "body"
+          description: "Product's fields that needs to be update."
+          required: true
+          schema:
+            $ref: "#/definitions/PutProductRequest"
+      responses:
+        "400":
+          description: "Invalid Id Supplied"
+        "404":
+          description: "Product Not Found"
+        "200":
+          description: "OK - Updated Product"
   /products:
     get:
       tags:
         - "Product"
-      summary: "Get All Products"
+      summary: "Get Products"
       description: "Return All Products"
       operationId: "getProducts"
       responses:
@@ -142,7 +195,25 @@ paths:
           description: "Successful Operation"
           schema:
             $ref: "#/definitions/GetProductsResponse"
-  /categories/{id}:
+    post:
+      tags:
+        - "Product"
+      summary: "Post product"
+      description: "Add new product"
+      operationId: "addProduct"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Product's field that needs to be post."
+          required: true
+          schema:
+            $ref: "#/definitions/PostProductRequest"
+      responses:
+        "405":
+          description: "Invalid input product"
+        "201":
+          description: "Created new product"
+  /category/{id}:
     get:
       tags:
         - "Category"
@@ -165,6 +236,52 @@ paths:
           description: "Invalid ID Supplied"
         "404":
           description: "Category Not Found"
+    put:
+      tags:
+        - "Category"
+      summary: "Update Category"
+      description: "Updating an existing Category"
+      operationId: "putCategoryById"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "Category id to updating"
+          required: true
+          type: "integer"
+          format: "int64"
+        - in: "body"
+          name: "body"
+          description: "Category's fields that needs to be update."
+          required: true
+          schema:
+            $ref: "#/definitions/Category"
+      responses:
+        "400":
+          description: "Invalid Id Supplied"
+        "404":
+          description: "Category Not Found"
+        "200":
+          description: "OK - Updated Category"
+    delete:
+      tags:
+        - "Category"
+      summary: "Deletes an category"
+      description: "Delete an existing Product"
+      operationId: "deleteCategory"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "Category Id to delete"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        "204":
+          description: "Deleted Category"
+        "400":
+          description: "Invalid ID Supplied"
+        "404":
+          description: "Category not found"
   /categories:
     get:
       tags:
@@ -177,6 +294,24 @@ paths:
           description: "Successful Operation"
           schema:
             $ref: "#/definitions/GetCategoriesResponse"
+    post:
+      tags:
+        - "Category"
+      summary: "Post Category"
+      description: "Add new Category"
+      operationId: "addCategory"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Category's field that needs to be post."
+          required: true
+          schema:
+            $ref: "#/definitions/Category"
+      responses:
+        "405":
+          description: "Invalid input category"
+        "201":
+          description: "Created new category"
   /orders/{id}:
     get:
       tags:
@@ -217,6 +352,8 @@ definitions:
     type: "object"
     required:
       - "name"
+      - "phone"
+      - "password"
     properties:
       name:
         type: "string"
@@ -234,12 +371,17 @@ definitions:
     type: "object"
     required:
       - "name"
+      - "email"
+      - "phone"
+      - "password"
     properties:
       name:
         type: "string"
       email:
         type: "string"
       phone:
+        type: "string"
+      password:
         type: "string"
   Category:
     type: "object"
@@ -256,6 +398,8 @@ definitions:
     type: "object"
     required:
       - "name"
+      - "price"
+      - "category"
     properties:
       name:
         type: "string"
@@ -267,6 +411,44 @@ definitions:
         example: "11.11"
       category:
         type: "string"
+  PutProductRequest:
+    type: "object"
+    required:
+      - "name"
+      - "description"
+      - "price"
+      - "category"
+    properties:
+      name:
+        type: "string"
+      description:
+        type: "string"
+      price:
+        type: "number"
+        format: "double"
+        example: "11.11"
+      category:
+        type: "integer"
+        format: "int64"
+  PostProductRequest:
+    type: "object"
+    required:
+      - "name"
+      - "description"
+      - "price"
+      - "category"
+    properties:
+      name:
+        type: "string"
+      description:
+        type: "string"
+      price:
+        type: "number"
+        format: "double"
+        example: "11.11"
+      category:
+        type: "integer"
+        format: "int64"
   GetProductsResponse:
     type: "array"
     items:
