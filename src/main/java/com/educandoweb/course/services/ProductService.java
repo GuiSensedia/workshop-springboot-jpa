@@ -9,6 +9,7 @@ import com.educandoweb.course.model.dto.request.CreateProductRequest;
 import com.educandoweb.course.model.dto.request.UpdateProductRequest;
 import com.educandoweb.course.model.dto.response.GetProductResponse;
 import com.educandoweb.course.repositories.CategoryRepository;
+import com.educandoweb.course.repositories.OrderItemRepository;
 import com.educandoweb.course.services.exceptions.DatabaseException;
 import com.educandoweb.course.services.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -25,13 +26,15 @@ import com.educandoweb.course.repositories.ProductRepository;
 @RequiredArgsConstructor
 public class ProductService {
 
-	private final ProductRepository repository;
+	private final ProductRepository productRepository;
 
 	private final CategoryRepository categoryRepository;
 
+	private final OrderItemRepository orderItemRepository;
+
 	public List<GetProductResponse> getAllProducts(){
 		log.info("Getting all products");
-		List<ProductDomain> productDomain = repository.findAll();
+		List<ProductDomain> productDomain = productRepository.findAll();
 		return productDomain.stream()
 				.map(GetProductResponse::valueOf)
 				.collect(Collectors.toList());
@@ -39,7 +42,7 @@ public class ProductService {
 
 	public GetProductResponse getProductById(Long id) {
 		log.info("Getting Product by Id");
-		Optional<ProductDomain> productDomain = repository.findById(id);
+		Optional<ProductDomain> productDomain = productRepository.findById(id);
 		GetProductResponse productResponse = GetProductResponse.valueOf(productDomain.get());
 		return productResponse;
 	}
@@ -50,20 +53,22 @@ public class ProductService {
 		if (categoryDomain.isPresent()){
 			log.info("Creating and saving new product");
 			ProductDomain domain = ProductDomain.valueOf(request, categoryDomain.get());
-			repository.save(domain);
+			productRepository.save(domain);
 		} else {
 			log.info("CategoryId {} requested Not Found", request.getId());
 			throw new ResourceNotFoundException(request.getId());
 		}
 	}
 
-	public void deleteProduct (Long id){
+	public void deleteProduct (Long productId){
 		try {
-			log.info("Deleting Product with id {}", id);
-			repository.deleteById(id);
+			log.info("Deleting orderItems with ProductId {}", productId);
+			orderItemRepository.deleteByProductId(productId);
+			log.info("Deleting Product with id {}", productId);
+			productRepository.deleteById(productId);
 		} catch (EmptyResultDataAccessException e) {
-			log.info("Id {}",id + " Not Found");
-			throw new ResourceNotFoundException(id);
+			log.info("Id {}",productId + " Not Found");
+			throw new ResourceNotFoundException(productId);
 		} catch (DataIntegrityViolationException e) {
 			throw new DatabaseException(e.getMessage());
 		}
@@ -71,13 +76,13 @@ public class ProductService {
 
 	public void updateProduct(Long id, UpdateProductRequest updateProductRequest) {
 		log.info("Finding product with id {}", id);
-		Optional<ProductDomain> optionalProduct = repository.findById(id);
+		Optional<ProductDomain> optionalProduct = productRepository.findById(id);
 		ProductDomain productDomain = optionalProduct.orElseThrow(() -> new ResourceNotFoundException(id));
 
 		log.info("Finding Category with id {}", updateProductRequest.getIdCategory());
 		Optional<CategoryDomain> optionalCategory = categoryRepository.findById(updateProductRequest.getIdCategory());
 		CategoryDomain categoryDomain = optionalCategory.orElseThrow(() -> new ResourceNotFoundException(updateProductRequest.getIdCategory()));
-
+		log.info("Updating fields");
 		updateProductsFields(productDomain, updateProductRequest, categoryDomain);
 	}
 
@@ -88,7 +93,7 @@ public class ProductService {
 		productDomain.setPrice(updateProductRequest.getPrice());
 		productDomain.setCategory(categoryDomain);
 		log.info("Saving product updating");
-		repository.save(productDomain);
+		productRepository.save(productDomain);
 	}
 
 }

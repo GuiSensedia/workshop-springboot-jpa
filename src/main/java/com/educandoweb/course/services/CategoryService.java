@@ -65,6 +65,7 @@ public class CategoryService {
 
 		log.info("Category Id request {} Not Found", id);
 		CategoryDomain categoryDomain = optionalCategory.orElseThrow(() -> new ResourceNotFoundException(id));
+		log.info("Updating Category");
 		updateCategoryFields(categoryDomain, updateCategory);
 	}
 
