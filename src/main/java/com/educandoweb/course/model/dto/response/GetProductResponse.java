@@ -8,11 +8,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class GetProductResponse {
+
+    private Long id;
 
     private String name;
 
@@ -24,6 +28,7 @@ public class GetProductResponse {
 
     public static GetProductResponse valueOf(ProductDomain productDomain){
         GetProductResponse productResponse = GetProductResponse.builder()
+                .id(productDomain.getId())
                 .name(productDomain.getName())
                 .description(productDomain.getDescription())
                 .category(productDomain.getCategory().getName())
