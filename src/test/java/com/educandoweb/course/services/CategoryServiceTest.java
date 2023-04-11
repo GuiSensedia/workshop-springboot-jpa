@@ -2,6 +2,7 @@ package com.educandoweb.course.services;
 
 import com.educandoweb.course.model.domain.CategoryDomain;
 import com.educandoweb.course.model.dto.request.CreateCategoryRequest;
+import com.educandoweb.course.model.dto.request.UpdateCategoryRequest;
 import com.educandoweb.course.repositories.CategoryRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,6 +29,9 @@ class CategoryServiceTest {
     @InjectMocks
     private CreateCategoryRequest createCategoryRequest;
 
+    @InjectMocks
+    private UpdateCategoryRequest updateCategoryRequest;
+
     @Mock
     private CategoryRepository categoryRepository;
 
@@ -38,56 +42,70 @@ class CategoryServiceTest {
 
     @Test
     void shouldGetCategoryById() {
-        givenGetCategoryById();
+        givenCategoryFindByIdReturnsCategoryDomain();
         whenGetCategoryByIdCalled();
-        thenExpectedGetCategoryByIdCalledOnce();
+        thenExpectCategoryRepositoryFindByIdCalledOnce();
     }
 
     @Test
     void shouldGetAllCategories(){
-        givenGetAllCategories();
+        givenCategoriesFindAllReturnsListCategoryDomain();
         whenGetAllCategoriesCalled();
-        thenExpectedGetAllCategoriesCalledOnce();
+        thenExpectCategoryRepositoryFindAllCalledOnce();
     }
 
     @Test
     void shouldCreateCategory(){
-        givenCreateCategory();
+        givenCreateCategoryRequest();
         whenCreateCategoryCalled();
-        thenExpectedCreateCategoryCalledOnce();
+        thenExpectCategoryRepositorySaveCalledOnce();
     }
 
     @Test
-    void shouldDeleteCategory(){}
+    void shouldDeleteCategory(){
+        whenDeleteCategoryCalled();
+        thenExpectCategoryRepositoryDeleteByIdCalledOnce();
+    }
 
     @Test
-    void shouldUpdateCategory(){}
+    void shouldUpdateCategory(){
+        givenCategoryFindByIdReturnsCategoryDomain();
+        givenUpdateCategoryRequest();
+        whenUpdateCategoryCalled();
+        thenExpectCategoryRepositoryFindByIdCalledOnce();
+        thenExpectCategoryRepositorySaveCalledOnce();
+    }
 
     /*
      * Given methods
      */
-    private void givenGetCategoryById() {
+    private void givenCategoryFindByIdReturnsCategoryDomain() {
         Optional<CategoryDomain> optionalCategory = Optional.of(new CategoryDomain(2L, "Console"));
         when(categoryRepository.findById(anyLong())).thenReturn(optionalCategory);
     }
 
-    private void givenGetAllCategories() {
+    private void givenCategoriesFindAllReturnsListCategoryDomain() {
         List<CategoryDomain> listCategory = new ArrayList<>();
         listCategory.add(new CategoryDomain(1L, "Software"));
         listCategory.add(new CategoryDomain(2L, "Hardware"));
         when(categoryRepository.findAll()).thenReturn(listCategory);
     }
 
-    private void givenCreateCategory() {
-        CategoryDomain domain = new CategoryDomain(5L, "Decoration");
-        when(categoryRepository.save(domain));
+    private void givenCreateCategoryRequest() {
+        CreateCategoryRequest categoryRequest = new CreateCategoryRequest("Gaming");
+        createCategoryRequest = categoryRequest;
+    }
+
+    private void givenUpdateCategoryRequest() {
+        UpdateCategoryRequest categoryRequest = new UpdateCategoryRequest("Players");
+        updateCategoryRequest = categoryRequest;
     }
 
     /*
      * When methods
      */
     private void whenGetCategoryByIdCalled() {
-        categoryService.getCategoryById(anyLong());
+        categoryService.getCategoryById(1L);
     }
 
     private void whenGetAllCategoriesCalled() {
@@ -98,19 +116,31 @@ class CategoryServiceTest {
         categoryService.createCategory(createCategoryRequest);
     }
 
+    private void whenDeleteCategoryCalled() {
+        categoryService.deleteCategory(2L);
+    }
+
+    private void whenUpdateCategoryCalled() {
+        categoryService.updateCategory(3L, updateCategoryRequest);
+    }
+
     /*
      * Then methods
      */
-    private void thenExpectedGetCategoryByIdCalledOnce() {
+    private void thenExpectCategoryRepositoryFindByIdCalledOnce() {
         verify(categoryRepository, times(1)).findById(anyLong());
     }
 
-    private void thenExpectedGetAllCategoriesCalledOnce() {
+    private void thenExpectCategoryRepositoryFindAllCalledOnce() {
         verify(categoryRepository, times(1)).findAll();
     }
 
-    private void thenExpectedCreateCategoryCalledOnce() {
+    private void thenExpectCategoryRepositorySaveCalledOnce() {
         verify(categoryRepository, times(1)).save(any(CategoryDomain.class));
+    }
+
+    private void thenExpectCategoryRepositoryDeleteByIdCalledOnce() {
+        verify(categoryRepository).deleteById(anyLong());
     }
 
 }
