@@ -36,8 +36,10 @@ public class CategoryService {
 
 	public GetCategoryResponse getCategoryById(Long id) {
 		log.info("Getting an category by Id {}", id);
-		Optional<CategoryDomain> categoryDomain = repository.findById(id);
-		GetCategoryResponse categoryResponse = GetCategoryResponse.valueOf(categoryDomain.get());
+		Optional<CategoryDomain> optionalCategoryDomain = repository.findById(id);
+		log.info("Category Id request {} Not Found", id);
+		CategoryDomain categoryDomain = optionalCategoryDomain.orElseThrow(() -> new ResourceNotFoundException(id));
+		GetCategoryResponse categoryResponse = GetCategoryResponse.valueOf(categoryDomain);
 		return categoryResponse;
 	}
 
@@ -62,7 +64,6 @@ public class CategoryService {
 	public void updateCategory(Long id, UpdateCategoryRequest updateCategory) {
 		log.info("Updating an existing category");
 		Optional<CategoryDomain> optionalCategory = repository.findById(id);
-
 		log.info("Category Id request {} Not Found", id);
 		CategoryDomain categoryDomain = optionalCategory.orElseThrow(() -> new ResourceNotFoundException(id));
 		log.info("Updating Category");

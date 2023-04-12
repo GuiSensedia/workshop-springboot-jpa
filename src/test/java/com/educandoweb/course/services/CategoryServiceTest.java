@@ -4,18 +4,23 @@ import com.educandoweb.course.model.domain.CategoryDomain;
 import com.educandoweb.course.model.dto.request.CreateCategoryRequest;
 import com.educandoweb.course.model.dto.request.UpdateCategoryRequest;
 import com.educandoweb.course.repositories.CategoryRepository;
+import com.educandoweb.course.services.exceptions.ResourceNotFoundException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -48,6 +53,13 @@ class CategoryServiceTest {
     }
 
     @Test
+    void shouldThrowResourceNotFoundExceptionWhenFindByIdNotFound() {
+        givenCategoryFindByIdReturnsEmpty();
+        whenGetCategoryByIdCalledThrowsResourceNotFoundException();
+        thenExpectCategoryRepositoryFindByIdCalledOnce();
+    }
+
+    @Test
     void shouldGetAllCategories(){
         givenCategoriesFindAllReturnsListCategoryDomain();
         whenGetAllCategoriesCalled();
@@ -68,6 +80,13 @@ class CategoryServiceTest {
     }
 
     @Test
+    void shouldThrowResourceNotFoundExceptionWhenDeleteCategoryNotFound() {
+        givenCategoryRepositoryDeleteByIdThrowsException();
+        whenCategoryDeleteByIdCalledThrowsResourceNotFoundException();
+        thenExpectCategoryRepositoryDeleteByIdCalledOnce();
+    }
+
+    @Test
     void shouldUpdateCategory(){
         givenCategoryFindByIdReturnsCategoryDomain();
         givenUpdateCategoryRequest();
@@ -76,12 +95,23 @@ class CategoryServiceTest {
         thenExpectCategoryRepositorySaveCalledOnce();
     }
 
+    @Test
+    void shouldThrowResourceNotFoundExceptionWhenUpdateCategoryIdNotFound() {
+        givenCategoryFindByIdReturnsEmpty();
+        whenGetCategoryByIdForUpdateCalledThrowsResourceNotFoundException();
+        thenExpectCategoryRepositoryFindByIdCalledOnce();
+    }
+
     /*
      * Given methods
      */
     private void givenCategoryFindByIdReturnsCategoryDomain() {
         Optional<CategoryDomain> optionalCategory = Optional.of(new CategoryDomain(2L, "Console"));
         when(categoryRepository.findById(anyLong())).thenReturn(optionalCategory);
+    }
+
+    private void givenCategoryFindByIdReturnsEmpty() {
+        when(categoryRepository.findById(anyLong())).thenReturn(Optional.empty());
     }
 
     private void givenCategoriesFindAllReturnsListCategoryDomain() {
@@ -101,11 +131,19 @@ class CategoryServiceTest {
         updateCategoryRequest = categoryRequest;
     }
 
+    private void givenCategoryRepositoryDeleteByIdThrowsException() {
+        doThrow(EmptyResultDataAccessException.class).when(categoryRepository).deleteById(anyLong());
+    }
+
     /*
      * When methods
      */
     private void whenGetCategoryByIdCalled() {
         categoryService.getCategoryById(1L);
+    }
+
+    private void whenGetCategoryByIdCalledThrowsResourceNotFoundException() {
+        assertThrows(ResourceNotFoundException.class, () -> categoryService.getCategoryById(1L));
     }
 
     private void whenGetAllCategoriesCalled() {
@@ -120,8 +158,16 @@ class CategoryServiceTest {
         categoryService.deleteCategory(2L);
     }
 
+    private void whenCategoryDeleteByIdCalledThrowsResourceNotFoundException() {
+        assertThrows(ResourceNotFoundException.class, () -> categoryService.deleteCategory(3L));
+    }
+
     private void whenUpdateCategoryCalled() {
-        categoryService.updateCategory(3L, updateCategoryRequest);
+        categoryService.updateCategory(4L, updateCategoryRequest);
+    }
+
+    private void whenGetCategoryByIdForUpdateCalledThrowsResourceNotFoundException() {
+        assertThrows(ResourceNotFoundException.class, () -> categoryService.getCategoryById(1L));
     }
 
     /*
