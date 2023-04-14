@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.educandoweb.course.model.domain.CategoryDomain;
 import com.educandoweb.course.model.dto.request.CreateUserRequest;
 import com.educandoweb.course.model.dto.request.UpdateUserRequest;
 import com.educandoweb.course.model.dto.response.GetUserResponse;
@@ -34,8 +35,10 @@ public class UserService {
 
     public GetUserResponse getUserById(Long id) {
         log.info("Getting user by id {}", id);
-        Optional<UserDomain> domain = repository.findById(id);
-        GetUserResponse response = GetUserResponse.valueOf(domain.get());
+        Optional<UserDomain> optionalUserDomain = repository.findById(id);
+        log.info("Category Id request {} Not Found", id);
+        UserDomain userDomain = optionalUserDomain.orElseThrow(() -> new ResourceNotFoundException(id));
+        GetUserResponse response = GetUserResponse.valueOf(userDomain);
         return response;
     }
 

@@ -53,7 +53,7 @@ class CategoryServiceTest {
     }
 
     @Test
-    void shouldThrowResourceNotFoundExceptionWhenFindByIdNotFound() {
+    void shouldThrowResourceNotFoundExceptionWhenFindCategoryByIdNotFound() {
         givenCategoryFindByIdReturnsEmpty();
         whenGetCategoryByIdCalledThrowsResourceNotFoundException();
         thenExpectCategoryRepositoryFindByIdCalledOnce();
@@ -105,6 +105,7 @@ class CategoryServiceTest {
     /*
      * Given methods
      */
+
     private void givenCategoryFindByIdReturnsCategoryDomain() {
         Optional<CategoryDomain> optionalCategory = Optional.of(new CategoryDomain(2L, "Console"));
         when(categoryRepository.findById(anyLong())).thenReturn(optionalCategory);
@@ -138,6 +139,7 @@ class CategoryServiceTest {
     /*
      * When methods
      */
+
     private void whenGetCategoryByIdCalled() {
         categoryService.getCategoryById(1L);
     }
@@ -173,6 +175,7 @@ class CategoryServiceTest {
     /*
      * Then methods
      */
+
     private void thenExpectCategoryRepositoryFindByIdCalledOnce() {
         verify(categoryRepository, times(1)).findById(anyLong());
     }
