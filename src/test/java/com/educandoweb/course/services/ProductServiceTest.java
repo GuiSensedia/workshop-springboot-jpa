@@ -4,6 +4,8 @@ import com.educandoweb.course.model.domain.CategoryDomain;
 import com.educandoweb.course.model.domain.ProductDomain;
 import com.educandoweb.course.model.dto.request.CreateProductRequest;
 import com.educandoweb.course.model.dto.request.UpdateProductRequest;
+import com.educandoweb.course.repositories.CategoryRepository;
+import com.educandoweb.course.repositories.OrderItemRepository;
 import com.educandoweb.course.repositories.ProductRepository;
 import com.educandoweb.course.services.exceptions.ResourceNotFoundException;
 import org.junit.jupiter.api.Test;
@@ -28,6 +30,12 @@ class ProductServiceTest {
     @Mock
     private ProductRepository productRepository;
 
+    @Mock
+    private CategoryRepository categoryRepository;
+
+    @Mock
+    private OrderItemRepository orderItemRepository;
+
     @InjectMocks
     private ProductService productService;
 
@@ -37,6 +45,9 @@ class ProductServiceTest {
     @InjectMocks
     private UpdateProductRequest updateProductRequest;
 
+    //Given -> Dados de entrada do teste, dados mockados, repositórios mockados.
+    //When  -> Chamada ao endpoint em questão que sendo testado.
+    //Then  -> Verificar se todos os repositories foram testados, verificar se o retorno da chamada está válido.
 
     @Test
     void shouldGetAllProducts() {
@@ -58,17 +69,21 @@ class ProductServiceTest {
         whenGetProductByIdCalledThrowsResourceNotFoundException();
         thenExpectProductRepositoryFindByIdCalledOnce();
     }
-
+    // Category is Null
     @Test
     void shouldCreateProduct() {
         givenCreateProductRequest();
+        givenCreateCategoryRepositoryFindByIdReturnsCategoryDomain();
         whenCreateProductCalled();
         thenExpectProductRepositorySaveCalledOnce();
+        thenExpectCategoryRepositoryFindByIdCalledOnce();
     }
 
+    // OrdemItem is Null
     @Test
     void shouldDeleteProduct() {
         whenDeleteProductCalled();
+        thenExpectOrderItemRepositoryDeleteByProductIdCalledOnce();
         thenExpectProductRepositoryDeleteByIdCalledOnce();
     }
 
@@ -78,14 +93,16 @@ class ProductServiceTest {
         whenProductDeleteByIdCalledThrowsResourceNotFoundException();
         thenExpectProductRepositoryDeleteByIdCalledOnce();
     }
-
+    // Category is Null
     @Test
     void shouldUpdateProduct() {
         givenProductFindByIdReturnsProductDomain();
         givenUpdateProductRequest();
+        givenCreateCategoryRepositoryFindByIdReturnsCategoryDomain();
         whenUpdateProductCalled();
         thenExpectProductRepositoryFindByIdCalledOnce();
         thenExpectProductRepositorySaveCalledOnce();
+        thenExpectCategoryRepositoryFindByIdCalledOnce();
     }
 
     @Test
@@ -94,8 +111,6 @@ class ProductServiceTest {
         whenGetProductByIdForUpdateCalledThrowsResourceNotFoundException();
         thenExpectProductRepositoryFindByIdCalledOnce();
     }
-
-    //TODO -> Finish GIVEN methods and create WHEN and THEN methods.
 
     /*
      * GIVEN METHODS:
@@ -139,9 +154,14 @@ class ProductServiceTest {
                 .name("Monitor")
                 .description("Monitor For Gaming")
                 .price(1000.00)
-                .id(1L)
+                .idCategory(1L)
                 .build();
         createProductRequest = productRequest;
+    }
+
+    private void givenCreateCategoryRepositoryFindByIdReturnsCategoryDomain() {
+        Optional<CategoryDomain> categoryDomain = Optional.of(new CategoryDomain(1L,"Eletronics"));
+        when(categoryRepository.findById(anyLong())).thenReturn(categoryDomain);
     }
 
     private void givenUpdateProductRequest() {
@@ -209,8 +229,18 @@ class ProductServiceTest {
     private void thenExpectProductRepositorySaveCalledOnce() {
         verify(productRepository, times(1)).save(any(ProductDomain.class));
     }
+
     private void thenExpectProductRepositoryDeleteByIdCalledOnce() {
         verify(productRepository, times(1)).deleteById(anyLong());
     }
+
+    private void thenExpectOrderItemRepositoryDeleteByProductIdCalledOnce() {
+        verify(orderItemRepository, times(1)).deleteByProductId(anyLong());
+    }
+
+    private void thenExpectCategoryRepositoryFindByIdCalledOnce() {
+        verify(categoryRepository, times(1)).findById(anyLong());
+    }
+
 
 }

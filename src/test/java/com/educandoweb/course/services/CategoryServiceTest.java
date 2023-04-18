@@ -42,7 +42,6 @@ class CategoryServiceTest {
     //Given -> Dados de entrada do teste, dados mockados, repositórios mockados.
     //When  -> Chamada ao endpoint em questão que sendo testado.
     //Then  -> Verificar se todos os repositories foram testados, verificar se o retorno da chamada está válido.
-    //TODO Create Delete and Update test;
 
     @Test
     void shouldGetCategoryById() {

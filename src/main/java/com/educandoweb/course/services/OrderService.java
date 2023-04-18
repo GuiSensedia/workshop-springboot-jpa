@@ -49,7 +49,7 @@ public class OrderService {
 //		UserDomain domain = UserDomain.valueOf(request);
 //		repository.save(domain);
 //	}
-//
+
 //	public void deleteUser(long id) {
 //		try {
 //			log.info("Deleting user by Id {}", id);
@@ -61,7 +61,7 @@ public class OrderService {
 //			throw new DatabaseException(e.getMessage());
 //		}
 //	}
-//
+
 //	public void updateUser(Long id, UpdateUserRequest updateUser) {
 //		log.info("Updating an existing user");
 //		Optional<UserDomain> optionalUser = repository.findById(id);
@@ -69,7 +69,7 @@ public class OrderService {
 //		UserDomain userDomain = optionalUser.orElseThrow(() -> new ResourceNotFoundException(id));
 //		updateUserFields(userDomain, updateUser);
 //	}
-//
+
 //	private void updateUserFields(UserDomain userDomain, UpdateUserRequest updateUserRequest) {
 //		log.info("Setting User's fields that requested");
 //		userDomain.setName(updateUserRequest.getName());
@@ -79,7 +79,6 @@ public class OrderService {
 //		log.info("Saving user updating");
 //		repository.save(userDomain);
 //	}
-
 
 }
 
