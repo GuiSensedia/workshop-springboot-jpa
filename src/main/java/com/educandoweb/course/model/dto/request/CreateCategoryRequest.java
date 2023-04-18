@@ -12,5 +12,4 @@ public class CreateCategoryRequest {
     @NotEmpty
     private String name;
 
-
 }

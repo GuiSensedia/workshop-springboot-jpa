@@ -53,6 +53,7 @@ public class OrderDomain implements Serializable {
 	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
 	private PaymentDomain payment;
 
+
 	public Double getTotal() {
 		double sum = 0;
 		for(OrderItemDomain x : items) {

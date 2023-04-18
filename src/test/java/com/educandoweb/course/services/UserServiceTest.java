@@ -1,6 +1,5 @@
 package com.educandoweb.course.services;
 
-import com.educandoweb.course.model.domain.CategoryDomain;
 import com.educandoweb.course.model.domain.UserDomain;
 import com.educandoweb.course.model.dto.request.CreateUserRequest;
 import com.educandoweb.course.model.dto.request.UpdateUserRequest;
@@ -20,7 +19,6 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -156,6 +154,7 @@ class UserServiceTest {
                 .phone("1777777777")
                 .password("147896325")
                 .build();
+        updateUserRequest = userRequest;
     }
 
     /*

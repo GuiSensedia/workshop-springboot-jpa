@@ -5,7 +5,6 @@ import com.educandoweb.course.model.dto.request.CreateCategoryRequest;
 import com.educandoweb.course.model.dto.request.UpdateCategoryRequest;
 import com.educandoweb.course.repositories.CategoryRepository;
 import com.educandoweb.course.services.exceptions.ResourceNotFoundException;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

@@ -42,21 +42,24 @@ public class ProductService {
 
 	public GetProductResponse getProductById(Long id) {
 		log.info("Getting Product by Id");
-		Optional<ProductDomain> productDomain = productRepository.findById(id);
-		GetProductResponse productResponse = GetProductResponse.valueOf(productDomain.get());
+		Optional<ProductDomain> optionalProductDomain = productRepository.findById(id);
+
+		log.info("Order Id request {} Not Found", id);
+		ProductDomain productDomain = optionalProductDomain.orElseThrow(() -> new ResourceNotFoundException(id));
+		GetProductResponse productResponse = GetProductResponse.valueOf(productDomain);
 		return productResponse;
 	}
 
 	public void createProduct(CreateProductRequest request){
 		log.info("Finding Category informed in request");
-		Optional<CategoryDomain> categoryDomain = categoryRepository.findById(request.getId());
+		Optional<CategoryDomain> categoryDomain = categoryRepository.findById(request.getIdCategory());
 		if (categoryDomain.isPresent()){
 			log.info("Creating and saving new product");
 			ProductDomain domain = ProductDomain.valueOf(request, categoryDomain.get());
 			productRepository.save(domain);
 		} else {
-			log.info("CategoryId {} requested Not Found", request.getId());
-			throw new ResourceNotFoundException(request.getId());
+			log.info("CategoryId {} requested Not Found", request.getIdCategory());
+			throw new ResourceNotFoundException(request.getIdCategory());
 		}
 	}
 
@@ -82,6 +85,7 @@ public class ProductService {
 		log.info("Finding Category with id {}", updateProductRequest.getIdCategory());
 		Optional<CategoryDomain> optionalCategory = categoryRepository.findById(updateProductRequest.getIdCategory());
 		CategoryDomain categoryDomain = optionalCategory.orElseThrow(() -> new ResourceNotFoundException(updateProductRequest.getIdCategory()));
+
 		log.info("Updating fields");
 		updateProductsFields(productDomain, updateProductRequest, categoryDomain);
 	}
@@ -92,6 +96,7 @@ public class ProductService {
 		productDomain.setDescription(updateProductRequest.getDescription());
 		productDomain.setPrice(updateProductRequest.getPrice());
 		productDomain.setCategory(categoryDomain);
+
 		log.info("Saving product updating");
 		productRepository.save(productDomain);
 	}

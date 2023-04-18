@@ -13,14 +13,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class CreateProductRequest {
+
     @NotEmpty
     private String name;
 
     private String description;
+
     @NotNull
     @Min(0)
     private Double price;
+
     @NotNull
-    private Long id;
+    private Long idCategory;
 
 }

@@ -28,10 +28,15 @@ public class ProductDomain implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
 	private String name;
+
 	private String description;
+
 	private Double price;
+
 	private String imgUrl;
+
 	private CategoryDomain category;
 	
 	@OneToMany(mappedBy = "id.product")

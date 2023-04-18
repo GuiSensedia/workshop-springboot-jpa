@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class UpdateCategoryRequest {
+
     @NotEmpty
     private String name;
+
 }

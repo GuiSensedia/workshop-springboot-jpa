@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.educandoweb.course.model.domain.CategoryDomain;
 import com.educandoweb.course.model.dto.request.CreateUserRequest;
 import com.educandoweb.course.model.dto.request.UpdateUserRequest;
 import com.educandoweb.course.model.dto.response.GetUserResponse;
@@ -36,6 +35,7 @@ public class UserService {
     public GetUserResponse getUserById(Long id) {
         log.info("Getting user by id {}", id);
         Optional<UserDomain> optionalUserDomain = repository.findById(id);
+
         log.info("Category Id request {} Not Found", id);
         UserDomain userDomain = optionalUserDomain.orElseThrow(() -> new ResourceNotFoundException(id));
         GetUserResponse response = GetUserResponse.valueOf(userDomain);
@@ -63,6 +63,7 @@ public class UserService {
     public void updateUser(Long id, UpdateUserRequest updateUser) {
         log.info("Updating an existing user");
         Optional<UserDomain> optionalUser = repository.findById(id);
+
         log.info("User Id request {} Not Found", id);
         UserDomain userDomain = optionalUser.orElseThrow(() -> new ResourceNotFoundException(id));
             updateUserFields(userDomain, updateUser);
@@ -74,6 +75,7 @@ public class UserService {
         userDomain.setEmail(updateUserRequest.getEmail());
         userDomain.setPhone(updateUserRequest.getPhone());
         userDomain.setPassword(updateUserRequest.getPassword());
+
         log.info("Saving user updating");
 		repository.save(userDomain);
     }

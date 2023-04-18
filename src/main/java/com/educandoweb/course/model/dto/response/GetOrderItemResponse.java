@@ -13,8 +13,11 @@ import lombok.NoArgsConstructor;
 public class GetOrderItemResponse {
 
     private String nameProduct;
+
     private Integer quantity;
+
     private Double price;
+
     private Double subTotal;
 
     public static GetOrderItemResponse valueOf(OrderItemDomain orderItem){

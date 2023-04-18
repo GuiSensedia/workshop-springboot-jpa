@@ -16,10 +16,13 @@ public class CreateUserRequest {
 
     @NotEmpty
     private String name;
+
     @Email
     private String email;
+
     @NotEmpty
     private String phone;
+
     @NotEmpty
     @Size(min = 8, max = 12)
     private String password;

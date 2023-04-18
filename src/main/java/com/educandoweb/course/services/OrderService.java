@@ -36,8 +36,11 @@ public class OrderService {
 
 	public GetOrderResponse getOrderById(Long id) {
 		log.info("Getting order by id {}", id);
-		Optional<OrderDomain> orderDomain = repository.findById(id);
-		GetOrderResponse orderResponse = GetOrderResponse.valueOf(orderDomain.get());
+		Optional<OrderDomain> optionalOrderDomain = repository.findById(id);
+
+		log.info("Order Id request {} Not Found", id);
+		OrderDomain orderDomain = optionalOrderDomain.orElseThrow(() -> new ResourceNotFoundException(id));
+		GetOrderResponse orderResponse = GetOrderResponse.valueOf(orderDomain);
 		return orderResponse;
 	}
 

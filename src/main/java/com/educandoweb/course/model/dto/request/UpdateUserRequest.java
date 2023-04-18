@@ -13,13 +13,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class UpdateUserRequest {
+
     @NotEmpty
     private String name;
+
     @NotEmpty
     @Email
     private String email;
+
     @NotEmpty
     private String phone;
+
     @NotEmpty
     @Size(min = 8, max = 12)
     private String password;
